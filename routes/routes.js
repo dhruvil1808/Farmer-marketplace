@@ -1,4 +1,6 @@
 const express = require('express');
+const farmerUser = require('../model/farmer-credentials');
+const buyerUser = require('../model/buyer-credentials');
 const app = express.Router();
 
 app.get('/signin', (req, res) => {
@@ -9,11 +11,12 @@ app.get('/sign-up', (req, res) => {
     res.render('signup.ejs', { title: 'Sign Up', alrt: '', value: 0 });
 }
 );
-app.get('/create-seller', (req, res) => {
-    const user = new farmerUser(req.body);
-    user
+app.post('/create-seller', (req, res) => {
+    const farmeruser = new farmerUser(req.body);
+    farmeruser
         .save()
         .then((result) => {
+            console.log("Helllo");
             res.render("signin", {
                 title: "Horizon",
                 alrt: "User Created Successfully",
@@ -23,9 +26,9 @@ app.get('/create-seller', (req, res) => {
             res.render("404", { title: "404 Error" });
         });
 });
-app.get('/create-buyer', (req, res) => {
-    const user = new buyerUser(req.body);
-    user
+app.post('/create-buyer', (req, res) => {
+    const buyeruser = new buyerUser(req.body);
+    buyeruser
         .save()
         .then((result) => {
             res.render("signin", {

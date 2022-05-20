@@ -11,5 +11,5 @@ const userSchema = new schema( //creating a schema
     },
     { timestamps: true }
 );
-const farmerUser = mongoose.model("farmer-User", userSchema); //creating a model with schema
+const farmerUser = mongoose.model("farmeruser", userSchema); //creating a model with schema
 module.exports = farmerUser;

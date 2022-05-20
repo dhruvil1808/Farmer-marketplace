@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const appRoutes = require("./routes/routes");
 const DBURI =
-    "mongodb+srv://dhruvil1808:Dhruvil1234@cluster0.6wkxh.mongodb.net/Discord?retryWrites=true&w=majority";
+    "mongodb+srv://dhruvil1808:Dhruvil1234@cluster0.6wkxh.mongodb.net/Horizon?retryWrites=true&w=majority";
 
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
