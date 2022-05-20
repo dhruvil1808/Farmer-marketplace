@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('./partials/bootstrap.ejs')%> <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include('./partials/nav.ejs')%>
+    <div class="create-user">
+        <form action="/resetpass" method="POST">
+          <h4>Reset Your Password</h4>
+         <ul>
+          <li><label for="email">ENTER EMAIL</label></li>
+          <input type="text" id="email" name="email" required />
+          <li><label for="username">USERNAME</label></li>
+          <input type="text" id="username" name="username" required />
+          <li><label for="dob">DATE OF BIRTH</label></li>
+          <input type="date" id="dob" name="dob" required />
+          <li><label for="password">PASSWORD</label></li>
+            <input type="password" id="password" name="password" required />
+            <button>Reset</button>
+          </ul>
+        </form>
+  </body>
+</html>

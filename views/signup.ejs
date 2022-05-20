@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('./partials/bootstrap.ejs')%>
+  <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include("./partials/nav.ejs")%>
+    <div class="create-user">
+      <form action="/create-user" method="POST">
+        <h4>Create an account</h4>
+       <ul>
+        <li><label for="aadhar">AAdhar Card Number</label></li>
+        <input type="text" id="aadhar" name="aadhar" required />
+        <li><label for="kisaan-card">Kisaan Card Number</label></li>
+        <input type="text" id="kisaan-card" name="kisaan-card" required />
+        <li><label for="pno">Phone Number</label></li>
+        <input type="text" id="pno" name="pno" required />
+      <li><label for="password">Password</label></li>
+        <input type="password" id="password" name="password" required />
+        <li><label for="c-password">Confirm Password</label></li>
+        <input type="password" id="c-password" name="c-password" required />
+      <li><label for="dob">Date of Birth</label></li>
+        <input type="date" id="dob" name="dob" required />
+        <button onclick="validate()">Continue</button>
+        <li><a href="/">Already have an account?</a></li>
+        </ul>
+        <script src="/validate.js"> 
+        </script>
+      </form>
+    </div>
+</html>

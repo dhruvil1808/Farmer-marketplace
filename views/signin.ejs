@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('./partials/bootstrap.ejs')%> <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include('./partials/nav.ejs')%>
+
+    <div class="Form">
+      <form action="/chat/" method="GET">
+        <h3>Welcome Back!</h3>
+        <h5>We are so excited to see you again!</h5>
+        <h2 class="Alert"><%=alrt%></h2>
+        <ul>
+          <li><label>EMAIL OR PHONE NUMBER</label></li>
+          <input type="text" name="search1" />
+          <li><label>PASSWORD</label></li>
+          <input type="password" name="search2" />
+          <li><a href="/reset">Forgot your password?</a></li>
+          <li>
+            <button type="submit">Login</button>
+          </li>
+          <li>Need an account? <a href="/sign-up">Register</a></li>
+        </ul>
+      </form>
+    </div>
+  </body>
+</html>
