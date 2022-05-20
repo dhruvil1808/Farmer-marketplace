@@ -2,29 +2,69 @@
 <html lang="en">
   <%-include('./partials/bootstrap.ejs')%>
   <%-include('./partials/header.ejs')%>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#farmer').hide();
+      $('#buyer').hide();
+      $('#button1').click(function(){
+        $('#buyer').hide();
+        $('#farmer').toggle();
+      });
+      $('#button2').click(function(){
+        $('#farmer').hide();
+        $('#buyer').toggle();
+      });
+    });
+  </script>
   <body>
     <%-include("./partials/nav.ejs")%>
     <div class="create-user">
-      <form action="/create-user" method="POST">
-        <h4>Create an account</h4>
-       <ul>
-        <li><label for="aadhar">AAdhar Card Number</label></li>
-        <input type="text" id="aadhar" name="aadhar" required />
-        <li><label for="kisaan-card">Kisaan Card Number</label></li>
-        <input type="text" id="kisaan-card" name="kisaan-card" required />
-        <li><label for="pno">Phone Number</label></li>
-        <input type="text" id="pno" name="pno" required />
-      <li><label for="password">Password</label></li>
-        <input type="password" id="password" name="password" required />
-        <li><label for="c-password">Confirm Password</label></li>
-        <input type="password" id="c-password" name="c-password" required />
-      <li><label for="dob">Date of Birth</label></li>
-        <input type="date" id="dob" name="dob" required />
-        <button onclick="validate()">Continue</button>
-        <li><a href="/">Already have an account?</a></li>
-        </ul>
-        <script src="/validate.js"> 
-        </script>
-      </form>
+      <li style="width:fit-content"><button id="button1">As Farmer</button> <button id="button2">As Buyer</button></li>
+        <div id="farmer">
+          <form action="/create-seller" method="POST">
+            <h4>Create Farmer account</h4>
+           <ul>
+            <li><label for="aadhar">AAdhar Card Number</label></li>
+            <input type="text" id="aadhar" name="aadhar" required />
+            <li><label for="kisaan-card">Kisaan Card Number</label></li>
+            <input type="text" id="kisaan-card" name="kisaan-card" required />
+            <li><label for="pno">Phone Number</label></li>
+            <input type="text" id="pno" name="pno" required />
+          <li><label for="password">Password</label></li>
+            <input type="password" id="password" name="password" required />
+            <li><label for="c-password">Confirm Password</label></li>
+            <input type="password" id="c-password" name="c-password" required />
+          <li><label for="dob">Date of Birth</label></li>
+            <input type="date" id="dob" name="dob" required />
+            <button onclick="validate()">Continue</button>
+            <li><a href="/">Already have an account?</a></li>
+            </ul>
+            <script src="/validate.js"> 
+            </script>
+          </form>
+        </div>
+        <div id="buyer">
+          <form action="/create-buyer" method="POST">
+          <h4>Create Buyer account</h4>
+         <ul>
+          <li><label for="aadhar">AAdhar Card Number</label></li>
+          <input type="text" id="aadhar" name="aadhar" required />
+          <li><label for="email">Email Id</label></li>
+          <input type="text" id="email" name="email" required />
+          <li><label for="pno">Phone Number</label></li>
+          <input type="text" id="pno" name="pno" required />
+        <li><label for="password">Password</label></li>
+          <input type="password" id="password" name="password" required />
+          <li><label for="c-password">Confirm Password</label></li>
+          <input type="password" id="c-password" name="c-password" required />
+        <li><label for="dob">Date of Birth</label></li>
+          <input type="date" id="dob" name="dob" required />
+          <button onclick="validate()">Continue</button>
+          <li><a href="/">Already have an account?</a></li>
+          </ul>
+          <script src="/validate.js"> 
+          </script>
+        </form></div>
     </div>
 </html>

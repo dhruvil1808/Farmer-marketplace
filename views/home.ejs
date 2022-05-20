@@ -1,22 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <%-include('./partials/bootstrap.ejs')%> <%-include('./partials/header.ejs')%>
-    <body>
-      <%-include('./partials/nav.ejs')%>
-        <div class="container">
-            <div class="row">
-            <div class="col-md-12">
-                <h1>Ongoing Auctions</h1>
-                
-            </div>
-            </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <%-include('./partials/bootstrap')%>
+    <%-include('./partials/header.ejs')%>
+
+<body>
+  <%-include('./partials/nav.ejs')%>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Ongoing Auctions</h1>
         </div>
-
-
-    </body>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Auction ID</th>
+                <th>Auction Image</th>
+                <th>Auction Name</th>
+                <th>Auction Description</th>
+                <th>Auction Start Date</th>
+                <th>Auction Start Time</th>
+                <th>Auction End Date</th>
+                <th>Auction End Time</th>
+                <th>Auction Status</th>
+                <th>Auction Type</th>
+                <th>Auction Category</th>
+                <th>Auction Subcategory</th>
+                <th>Auction Seller</th>
+                <th>Auction Buyer</th>
+                <th>Auction Bid</th>
+                <th>Auction Reserve</th>
+              </tr>
+              <tr>
+                <%//for loop display all the ongoing auctions%>
+              </tr>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </div>
+</body>
 </html>
