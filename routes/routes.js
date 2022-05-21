@@ -1,4 +1,8 @@
 const express = require('express');
+const multer = require('multer');
+var fs = require('fs');
+var path = require('path');
+require('dotenv/config');
 const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
 const router = express.Router();
@@ -69,7 +73,7 @@ router.get('/login/', async (req, res) => {
         if (ch == 0) {
             crop.find({})
                 .sort({ createdAt: -1 })
-                .then((results) => {
+                .then(async (results) => {
                     allcrops = await crop.find({});
                     res.render("buy", { users: results, title: result.name, crops: allcrops });
                 })
