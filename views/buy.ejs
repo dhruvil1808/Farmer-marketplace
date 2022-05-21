@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <%-include('./partials/bootstrap')%> <%-include('./partials/header.ejs')%>
+  <style>
+    th,
+    tr,
+    td {
+      padding: 10px;
+      border: solid black 1px;
+    }
+    button {
+      width: 10vw;
+    }
+  </style>
   <body>
     <%-include('./partials/nav.ejs')%>
     <div>
-      <form action="">
+      <h2 class="Alert"><%=alrt%></h2>
+      <form action="buy-crop" method="post">
         <table>
           <head>
             <tr>
@@ -20,8 +32,8 @@
               <th><label for="crop-image">Crop Image</label></th>
             </tr>
           </head>
+          <%if(crops.length>=1){%> <%crops.forEach(crop=>{ %>
           <tr>
-            <%if(crops.length>1){%> <%crops.forEach(crop=>{ %>
             <div class="rows">
               <th><%=crop.name%></th>
               <th><%=crop.description%></th>
@@ -29,11 +41,10 @@
               <th><%=crop.quantity%></th>
               <th><%=crop.category%></th>
               <th><%=crop.image%></th>
+              <th><button value="">Buy</button></th>
             </div>
-            <%})}%> <%else{%>
-            <p>No crops to buy</p>
-            <%}%>
           </tr>
+          <%})}%>
         </table>
       </form>
     </div>

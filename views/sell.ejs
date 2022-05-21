@@ -4,44 +4,45 @@
   <body>
     <%-include('./partials/nav.ejs')%>
     <div>
-      <form action="/post-crop">
+      <h2 class="Alert"><%=alrt%></h2>
+      <form action="/post-crop" method="POST">
         <table>
           <head>
             <tr>
               <th>
-                <label for="crop-name">Enter Crop Name</label>
+                <label for="name">Enter Crop Name</label>
               </th>
               <th>
-                <label for="crop-description">Enter Crop Description</label>
+                <label for="description">Enter Crop Description</label>
               </th>
-              <th><label for="Base-price">Base Price(per Kg)</label></th>
+              <th><label for="price">Base Price(per Kg)</label></th>
               <th><label for="quantity">Total Quantity</label></th>
-              <th><label for="crop-category">Crop Category</label></th>
-              <th><label for="crop-image">Crop Image</label></th>
+              <th><label for="category">Crop Category</label></th>
+              <th><label for="image">Crop Image</label></th>
             </tr>
           </head>
           <tr>
             <th>
               <input
                 type="text"
-                id="crop-name"
-                name="crop-name"
+                id="name"
+                name="name"
                 placeholder="Crop Name"
               />
             </th>
             <th>
               <input
                 type="text"
-                id="crop-description"
-                name="crop-description"
+                id="description"
+                name="description"
                 placeholder="Crop Description"
               />
             </th>
             <th>
               <input
                 type="text"
-                id="base-price"
-                name="base-price"
+                id="price"
+                name="basePrice"
                 placeholder="Base Price"
               />
             </th>
@@ -54,7 +55,7 @@
               />
             </th>
             <th>
-              <select id="crop-category" name="crop-category">
+              <select id="category" name="category">
                 <option value="">Select Category</option>
                 <option value="vegetable">Vegetable</option>
                 <option value="fruits">Fruits</option>
@@ -67,8 +68,8 @@
             <th>
               <input
                 type="file"
-                id="crop-image"
-                name="crop-image"
+                id="crop_image"
+                name="crop_image"
                 placeholder="Crop Image"
               />
             </th>
