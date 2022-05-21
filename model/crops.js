@@ -15,7 +15,7 @@ const cropSchema = new schema( //creating a schema
             contentType: String,
             required: false
         },
-        buyer_id: { type: Array, required: false },
+        buyers: { type: Array, required: false },
         amount: { type: Array, required: false },
     },
     { timestamps: true }

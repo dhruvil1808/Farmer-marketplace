@@ -9,7 +9,7 @@ const userSchema = new schema( //creating a schema
         pno: { type: String, required: true },
         dob: { type: String, required: true },
         password: { type: String, required: true },
-        crop_id: { type: Array, required: false },
+        crops: { type: Array, required: false },
         amount: { type: Array, required: false },
     },
     { timestamps: true }

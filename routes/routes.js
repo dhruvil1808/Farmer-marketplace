@@ -1,10 +1,4 @@
 const express = require('express');
-const { append } = require('express/lib/response');
-const multer = require('multer');
-const ObjectId = require('mongodb').ObjectID;
-/* var fs = require('fs');
-var path = require('path');
-require('dotenv/config'); */
 const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
 const router = express.Router();
@@ -95,6 +89,35 @@ router.get('/reset', (req, res) => {
 }
 );
 router.post('/resetpass', async (req, res) => {
+    const name = req.body.email;
+    const birth = req.body.dob;
+    var result2;
+    const result = await buyerUser.findOneAndUpdate(
+        { email: name, dob: birth },
+        { password: req.body.password }
+    );
+    if (result == null) {
+        result2 = await farmerUser.findOneAndUpdate(
+            { aadhar: name, dob: birth },
+            { password: req.body.password }
+        );
+    }
+    if (result != null) {
+        buyerUser.password = res.password;
+        res.render("signin", {
+            title: "Horozon",
+            alrt: "Password Reset",
+        });
+    }
+    else if (result2 != null) {
+        farmerUser.password = res.password;
+        res.render("signin", {
+            title: "Horizon",
+            alrt: "Password Reset",
+        });
+    } else {
+        res.render("signin", { title: "Horizon", alrt: "Password Reset" });
+    }
 });
 router.post('/post-crop/:farmername', (req, res) => {
     const name = req.params.farmername;
@@ -103,7 +126,7 @@ router.post('/post-crop/:farmername', (req, res) => {
     postcrop
         .save()
         .then(async (result) => {
-            var result2 = await farmerUser.findOneAndUpdate({ name: name }, { $push: { crops: postcrop._id } });
+            await farmerUser.findOneAndUpdate({ name: name }, { $push: { crops: postcrop._id } });
             res.render("sell", { title: name, alrt: "Crop Posted Successfully" });
         }
         )
@@ -113,23 +136,34 @@ router.post('/post-crop/:farmername', (req, res) => {
         );
 });
 router.post('/buy-crop/:id/:name', async (req, res) => {
-    var id = req.params.id;
+    const id = req.params.id;
     const name = req.params.name;
     const bid = req.body.bid;
-    var result2 = await buyerUser.findOneAndUpdate({ name: name }, { $push: { crop_id: ObjectId(id) }, $push: { amount: bid } });
-    if (result2 != null) {
-        var result = await crop.findByIdAndUpdate(id, { $push: { buyer_id: ObjectId(result2._id) }, $push: { amount: bid } });
-        if (result !== null) {
-            allcrops = await crop.find({}).sort({ name: -1 });
-            res.render("buy", { crops: allcrops, title: name, alrt: "Bid Placed Successfully" });
+    var res = await buyerUser.findOne({ crops: id });
+    if (res == null) {
+        var result2 = await buyerUser.findOneAndUpdate({ name: name }, {
+            $push: {
+                crops: id
+            }
+        });
+        var result2 = await buyerUser.findOneAndUpdate({ name: name }, {
+            $push: { amount: bid }
+        });
+        if (result2 != null) {
+            var result = await crop.findByIdAndUpdate(id, { $push: { buyers: result2._id } });
+            var result = await crop.findByIdAndUpdate(id, { $push: { amount: bid } });
+            if (result !== null) {
+                allcrops = await crop.find({}).sort({ name: -1 });
+                res.render("buy", { crops: allcrops, title: name, alrt: "Bid Placed Successfully" });
+            }
+            else {
+                allcrops = await crop.find({}).sort({ name: -1 });
+                res.render("buy", { crops: allcrops, title: name, alrt: "Bid Failed" });
+            }
         }
         else {
-            allcrops = await crop.find({}).sort({ name: -1 });
-            res.render("buy", { crops: allcrops, title: name, alrt: "Bid Failed" });
+            res.render("buy", { title: name, alrt: "Bid Failed" });
         }
-    }
-    else {
-        res.render("buy", { title: name, alrt: "Bid Failed" });
     }
 });
 router.get('/about', (req, res) => {
