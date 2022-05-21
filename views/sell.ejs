@@ -1,10 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sell</title>
-  </head>
-  <body></body>
+  <%-include('./partials/bootstrap')%> <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include('./partials/nav.ejs')%>
+    <div>
+      <form action="">
+        <table>
+          <head>
+            <tr>
+              <th>
+                <label for="crop-name">Enter Crop Name</label>
+              </th>
+              <th>
+                <label for="crop-description">Enter Crop Description</label>
+              </th>
+              <th><label for="Base-price">Base Price(per Kg)</label></th>
+              <th><label for="quantity">Total Quantity</label></th>
+              <th><label for="crop-category">Crop Category</label></th>
+              <th><label for="crop-image">Crop Image</label></th>
+            </tr>
+          </head>
+          <tr>
+            <th>
+              <input
+                type="text"
+                id="crop-name"
+                name="crop-name"
+                placeholder="Crop Name"
+              />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="crop-description"
+                name="crop-description"
+                placeholder="Crop Description"
+              />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="base-price"
+                name="base-price"
+                placeholder="Base Price"
+              />
+            </th>
+            <th>
+              <input
+                type="text"
+                id="quantity"
+                name="quantity"
+                placeholder="Quantity"
+              />
+            </th>
+            <th>
+              <select id="crop-category" name="crop-category">
+                <option value="">Select Category</option>
+                <option value="vegetable">Vegetable</option>
+                <option value="fruits">Fruits</option>
+                <option value="pulses">Pulses</option>
+                <option value="oilseeds">Oilseeds</option>
+                <option value="grain">Grain</option>
+                <option value="others">Others</option>
+              </select>
+            </th>
+            <th>
+              <input
+                type="file"
+                id="crop-image"
+                name="crop-image"
+                placeholder="Crop Image"
+              />
+            </th>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
 </html>

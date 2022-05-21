@@ -3,6 +3,7 @@ const schema = mongoose.Schema; //create a schema
 
 const userSchema = new schema( //creating a schema
     {
+        name: { type: String, required: true },
         aadhar: { type: String, required: true },
         email: { type: String, required: true },
         pno: { type: String, required: true },
@@ -13,6 +14,7 @@ const userSchema = new schema( //creating a schema
 );
 const userSchema2 = new schema( //creating a schema
     {
+        name: { type: String, required: true },
         aadhar: { type: String, required: true },
         kisaan_id: { type: String, required: true },
         pno: { type: String, required: true },

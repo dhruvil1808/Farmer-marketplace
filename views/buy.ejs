@@ -1,10 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Buy</title>
-  </head>
-  <body></body>
+  <%-include('./partials/bootstrap')%> <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include('./partials/nav.ejs')%>
+    <div>
+      <form action="">
+        <table>
+          <head>
+            <tr>
+              <th>
+                <label for="crop-name">Crop Name</label>
+              </th>
+              <th>
+                <label for="crop-description">Crop Description</label>
+              </th>
+              <th><label for="Base-price">Base Price(per Kg)</label></th>
+              <th><label for="quantity">Total Quantity</label></th>
+              <th><label for="crop-category">Crop Category</label></th>
+              <th><label for="crop-image">Crop Image</label></th>
+            </tr>
+          </head>
+          <tr>
+            <%if(crops.length>1){%> <%crops.forEach(crop=>{ %>
+            <div class="rows">
+              <th><%=crop.name%></th>
+              <th><%=crop.description%></th>
+              <th><%=crop.basePrice%></th>
+              <th><%=crop.quantity%></th>
+              <th><%=crop.category%></th>
+              <th><%=crop.image%></th>
+            </div>
+            <%}})%> <%} else{%>
+            <p>No crops to buy</p>
+            <%}%>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
 </html>
