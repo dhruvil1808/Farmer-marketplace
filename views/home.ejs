@@ -14,29 +14,38 @@
       <div class="row">
         <div class="col-md-12">
           <table class="table table-striped">
-            <thead>
+            <head>
               <tr>
-                <th>Auction ID</th>
-                <th>Auction Image</th>
-                <th>Auction Name</th>
-                <th>Auction Description</th>
-                <th>Auction Start Date</th>
-                <th>Auction Start Time</th>
-                <th>Auction End Date</th>
-                <th>Auction End Time</th>
-                <th>Auction Status</th>
-                <th>Auction Type</th>
-                <th>Auction Category</th>
-                <th>Auction Subcategory</th>
-                <th>Auction Seller</th>
-                <th>Auction Buyer</th>
-                <th>Auction Bid</th>
-                <th>Auction Reserve</th>
+                <th>
+                  <label for="seller-name">Seller Name</label>
+                </th>
+                <th>
+                  <label for="crop-name">Crop Name</label>
+                </th>
+                <th>
+                  <label for="crop-description">Crop Description</label>
+                </th>
+                <th><label for="Base-price">Base Price(per Kg)</label></th>
+                <th><label for="quantity">Total Quantity</label></th>
+                <th><label for="crop-category">Crop Category</label></th>
+                <th><label for="crop-image">Crop Image</label></th>
               </tr>
+            </head>
+            <%if(crops.length>=1){%> <%crops.forEach(crop=>{ %>
+            <form action="/buy-crop/<%=crop._id%>/<%=title%>" method="post">
               <tr>
-                <%//for loop display all the ongoing auctions%>
+                <div class="rows">
+                  <th><%=crop.sellerName%></th>
+                  <th><%=crop.name%></th>
+                  <th><%=crop.description%></th>
+                  <th><%=crop.basePrice%></th>
+                  <th><%=crop.quantity%></th>
+                  <th><%=crop.category%></th>
+                  <th><%=crop.image%></th>
+                </div>
               </tr>
-            </thead>
+            </form>
+            <%})}%>
           </table>
         </div>
       </div>

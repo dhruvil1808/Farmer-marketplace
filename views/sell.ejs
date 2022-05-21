@@ -5,7 +5,7 @@
     <%-include('./partials/nav.ejs')%>
     <div>
       <h2 class="Alert"><%=alrt%></h2>
-      <form action="/post-crop" method="POST">
+      <form action="/post-crop/<%=title%>" method="POST">
         <table>
           <head>
             <tr>

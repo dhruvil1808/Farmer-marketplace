@@ -1,5 +1,7 @@
 const express = require('express');
+const { append } = require('express/lib/response');
 const multer = require('multer');
+const ObjectId = require('mongodb').ObjectID;
 /* var fs = require('fs');
 var path = require('path');
 require('dotenv/config'); */
@@ -7,8 +9,9 @@ const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('home.ejs', { title: 'Horizon', alrt: '' });
+router.get('/', async (req, res) => {
+    allcrops = await crop.find({}).sort({ name: -1 });
+    res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: '' });
 }
 );
 router.get('/sign-up/:value', (req, res) => {
@@ -67,7 +70,7 @@ router.get('/login/', async (req, res) => {
                 .sort({ createdAt: -1 })
                 .then(async (results) => {
                     allcrops = await crop.find({}).sort({ name: -1 });
-                    res.render("buy", { users: results, title: result.name, crops: allcrops, alrt: '' });
+                    res.render("buy", { user: results, title: result.name, crops: allcrops, alrt: '' });
                 })
                 .catch((err) => {
                     res.render("404", { title: "404 Error" });
@@ -93,12 +96,15 @@ router.get('/reset', (req, res) => {
 );
 router.post('/resetpass', async (req, res) => {
 });
-router.post('/post-crop', (req, res) => {
+router.post('/post-crop/:farmername', (req, res) => {
+    const name = req.params.farmername;
     const postcrop = new crop(req.body);
+    postcrop.sellerName = name;
     postcrop
         .save()
-        .then((result) => {
-            res.render("sell", { title: "Horizon", alrt: "Crop Posted Successfully" });
+        .then(async (result) => {
+            var result2 = await farmerUser.findOneAndUpdate({ name: name }, { $push: { crops: postcrop._id } });
+            res.render("sell", { title: name, alrt: "Crop Posted Successfully" });
         }
         )
         .catch((err) => {
@@ -106,12 +112,32 @@ router.post('/post-crop', (req, res) => {
         }
         );
 });
+router.post('/buy-crop/:id/:name', async (req, res) => {
+    var id = req.params.id;
+    const name = req.params.name;
+    const bid = req.body.bid;
+    var result2 = await buyerUser.findOneAndUpdate({ name: name }, { $push: { crop_id: ObjectId(id) }, $push: { amount: bid } });
+    if (result2 != null) {
+        var result = await crop.findByIdAndUpdate(id, { $push: { buyer_id: ObjectId(result2._id) }, $push: { amount: bid } });
+        if (result !== null) {
+            allcrops = await crop.find({}).sort({ name: -1 });
+            res.render("buy", { crops: allcrops, title: name, alrt: "Bid Placed Successfully" });
+        }
+        else {
+            allcrops = await crop.find({}).sort({ name: -1 });
+            res.render("buy", { crops: allcrops, title: name, alrt: "Bid Failed" });
+        }
+    }
+    else {
+        res.render("buy", { title: name, alrt: "Bid Failed" });
+    }
+});
 router.get('/about', (req, res) => {
     res.render('about.ejs', { title: 'About', alrt: '' });
 }
 );
 router.use((req, res) => {
-    res.render('404.ejs', { title: '404', alrt: '' });
+    res.render('404.ejs', { title: '404 Error hai', alrt: '' });
 }
 );
 module.exports = router;
