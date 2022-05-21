@@ -73,8 +73,9 @@ router.get('/login/', async (req, res) => {
         else {
             farmerUser.find({})
                 .sort({ createdAt: -1 })
-                .then((results) => {
-                    res.render("sell", { users: results, title: result.name, alrt: '' });
+                .then(async (results) => {
+                    allcrops = await crop.find({ sellerName: result.name }).sort({ name: -1 });
+                    res.render("sell", { users: results, title: result.name, crops: allcrops, alrt: '' });
                 })
                 .catch((err) => {
                     res.render("404", { title: "404 Error" });
