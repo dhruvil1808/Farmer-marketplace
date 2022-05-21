@@ -1,22 +1,22 @@
 const express = require('express');
-const farmerUser = require('../model/farmer-credentials');
-const buyerUser = require('../model/buyer-credentials');
-const app = express.Router();
+const { buyerUser, farmerUser } = require('../model/credentials');
+const router = express.Router();
 
-app.get('/signin', (req, res) => {
+router.get('/signin', (req, res) => {
     res.render('signin.ejs', { title: 'Sign In', alrt: '' });
 }
 );
-app.get('/sign-up', (req, res) => {
-    res.render('signup.ejs', { title: 'Sign Up', alrt: '', value: 0 });
+router.get('/sign-up/:value', (req, res) => {
+    var val = req.params.value;
+    res.render('signup.ejs', { title: 'Sign Up', alrt: '', value: val });
 }
 );
-app.post('/create-seller', (req, res) => {
-    const farmeruser = new farmerUser(req.body);
-    farmeruser
+router.post('/createseller', (req, res) => {
+    const selleruser = new farmerUser(req.body);
+    console.log(req.body);
+    selleruser
         .save()
         .then((result) => {
-            console.log("Helllo");
             res.render("signin", {
                 title: "Horizon",
                 alrt: "User Created Successfully",
@@ -26,7 +26,7 @@ app.post('/create-seller', (req, res) => {
             res.render("404", { title: "404 Error" });
         });
 });
-app.post('/create-buyer', (req, res) => {
+router.post('/createbuyer', (req, res) => {
     const buyeruser = new buyerUser(req.body);
     buyeruser
         .save()
@@ -40,19 +40,20 @@ app.post('/create-buyer', (req, res) => {
             res.render("404", { title: "404 Error" });
         });
 });
-app.get('/reset', (req, res) => {
+router.get('/reset', (req, res) => {
     res.render('reset.ejs', { title: 'Reset Password', alrt: '' });
 }
 );
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     res.render('home.ejs', { title: 'Horizon', alrt: '' });
 }
 );
-app.get('/about', (req, res) => {
+router.get('/about', (req, res) => {
     res.render('about.ejs', { title: 'About', alrt: '' });
 }
 );
-app.use((req, res) => {
-    res.render("404", { title: "404 Error" });
-});
-module.exports = app;
+router.use((req, res) => {
+    res.render('404.ejs', { title: '404', alrt: '' });
+}
+);
+module.exports = router;
