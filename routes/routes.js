@@ -10,7 +10,12 @@ router.get('/', async (req, res) => {
 );
 router.get('/sign-up/:value', (req, res) => {
     var val = req.params.value;
-    res.render('signup.ejs', { title: 'Sign Up', alrt: '', value: val });
+    if (val == 1) {
+        res.render('signup.ejs', { title: 'Farmer', alrt: '', value: val });
+    }
+    else if (val == 2) {
+        res.render('signup.ejs', { title: 'Buyer', alrt: '', value: val });
+    }
 }
 );
 router.get('/signin', (req, res) => {
@@ -127,8 +132,9 @@ router.post('/post-crop/:farmername', (req, res) => {
     postcrop
         .save()
         .then(async (result) => {
+            allcrops = await crop.find({}).sort({ name: -1 });
             await farmerUser.findOneAndUpdate({ name: name }, { $push: { crops: postcrop._id } });
-            res.render("sell", { title: name, alrt: "Crop Posted Successfully" });
+            res.render("sell", { title: name, crops: allcrops, alrt: "Crop Posted Successfully" });
         }
         )
         .catch((err) => {

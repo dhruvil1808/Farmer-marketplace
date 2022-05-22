@@ -4,9 +4,22 @@
   <%-include('./partials/header.ejs')%>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
+    
     $(document).ready(function(){
+      var val=$('.username').text();
+    console.log(val);
+     if(val=="Farmer")
+     {
+      $('#buyer').hide();
+     }
+     else if(val=="Buyer")
+     {
+      $('#farmer').hide();
+     }
+     else{
       $('#buyer').hide();
       $('#farmer').hide();
+     }
       $('#button1').click(function(){
         $('#buyer').hide();
         $('#farmer').toggle();
