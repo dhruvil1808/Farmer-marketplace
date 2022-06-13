@@ -33,7 +33,11 @@
     <%-include('./partials/nav.ejs')%>
     <div>
       <h2 class="Alert"><%=alrt%></h2>
-      <form action="/post-crop/<%=title%>" method="POST">
+      <form
+        action="/post-crop/<%=title%>"
+        method="POST"
+        enctype="multipart/form-data"
+      >
         <table>
           <head>
             <tr>
@@ -165,7 +169,12 @@
             <th><%=crop.basePrice%></th>
             <th><%=crop.quantity%></th>
             <th><%=crop.category%></th>
-            <th><%=crop.image%></th>
+            <th style="width: 100px">
+              <img
+                src="data:image/<%=crop.crop_image.contentType%>;base64,
+              <%=crop.crop_image.data.toString('base64')%>"
+              />
+            </th>
             <th><%=crop.startDate%></th>
             <th><%=crop.endDate%></th>
           </div>

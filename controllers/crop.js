@@ -1,10 +1,19 @@
 const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
+const fs = require('fs');
+const path = require('path');
+var sharp = require('sharp');
 
 module.exports = {
-    postCrop: (req, res) => {
+    postCrop: (req, res, next) => {
         const name = req.params.farmername;
         const postcrop = new crop(req.body);
+
+        sharp('./public/uploads/' + req.file.filename).resize(100, 50)
+            .jpeg({ quality: 80 }).toFile('./public/uploads/edit_' + req.file.filename);
+
+        postcrop.crop_image.data = fs.readFileSync(path.join('./public/uploads/' + req.file.filename));
+        postcrop.crop_image.contentType = 'image/png/jpg/jpeg';
         postcrop.sellerName = name;
         postcrop
             .save()
