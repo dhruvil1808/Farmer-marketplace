@@ -8,6 +8,26 @@
       padding: 10px;
       border: solid black 1px;
     }
+    input,
+    select {
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      width: 100%;
+      background-color: #4caf50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
   </style>
   <body>
     <%-include('./partials/nav.ejs')%>
@@ -25,10 +45,6 @@
               </th>
               <th><label for="price">Base Price(per Kg)</label></th>
               <th><label for="quantity">Total Quantity</label></th>
-              <th><label for="category">Crop Category</label></th>
-              <th><label for="image">Crop Image</label></th>
-              <th><label for="start-date">Start Date</label></th>
-              <th><label for="end-date">End Date</label></th>
             </tr>
           </head>
           <tr>
@@ -64,6 +80,20 @@
                 placeholder="Quantity"
               />
             </th>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <th><label for="category">Crop Category</label></th>
+            <th><label for="image">Crop Image</label></th>
+            <th><label for="start-date">Start Date</label></th>
+            <th><label for="end-date">End Date</label></th>
+          </tr>
+          <tr>
             <th>
               <select id="category" name="category">
                 <option value="">Select Category</option>
@@ -99,8 +129,7 @@
                 placeholder="End Date"
               />
             </th>
-
-            <th><button type="submit">Post</button></th>
+            <th><input type="submit" /></th>
           </tr>
         </table>
       </form>

@@ -12,10 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 mongoose
     .connect(DBURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then()
+    .then(app.listen(3000))
     .catch((err) => console.log(err));
-
-app.listen(3000, () => {
-});
 
 app.use(appRoutes);
