@@ -19,6 +19,7 @@
       <table>
         <head>
           <tr>
+            <th><label for="crop-image">Crop Image</label></th>
             <th>
               <label for="seller-name">Seller Name</label>
             </th>
@@ -31,7 +32,6 @@
             <th><label for="Base-price">Base Price(per Kg)</label></th>
             <th><label for="quantity">Total Quantity</label></th>
             <th><label for="crop-category">Crop Category</label></th>
-            <th><label for="crop-image">Crop Image</label></th>
             <th><label for="start-date">Start Date</label></th>
             <th><label for="end-date">End Date</label></th>
             <th><label for="bid">Your Bid</label></th>
@@ -41,13 +41,19 @@
         <form action="/buy-crop/<%=crop._id%>/<%=title%>" method="post">
           <tr>
             <div class="rows">
+              <th>
+                <img
+                  style="width: 300px"
+                  src="data:image/<%=crop.crop_image.contentType%>;base64,
+                <%=crop.crop_image.data.toString('base64')%>"
+                />
+              </th>
               <th><%=crop.sellerName%></th>
               <th><%=crop.name%></th>
               <th><%=crop.description%></th>
               <th><%=crop.basePrice%></th>
               <th><%=crop.quantity%></th>
               <th><%=crop.category%></th>
-              <th><%=crop.image%></th>
               <th><%=crop.startDate%></th>
               <th><%=crop.endDate%></th>
               <th><input type="text" name="bid" id="bid" /></th>
