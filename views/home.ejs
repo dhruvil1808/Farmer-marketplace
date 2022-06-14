@@ -45,27 +45,25 @@
               </tr>
             </head>
             <%if(crops.length>=1){%> <%crops.forEach(crop=>{ %>
-            <form action="/buy-crop/<%=crop._id%>/<%=title%>" method="post">
-              <tr>
-                <div class="rows">
-                  <th>
-                    <img
-                      style="width: 300px"
-                      src="data:image/<%=crop.crop_image.contentType%>;base64,
+            <tr>
+              <div class="rows">
+                <th>
+                  <img
+                    style="width: 300px"
+                    src="data:image/<%=crop.crop_image.contentType%>;base64,
                     <%=crop.crop_image.data.toString('base64')%>"
-                    />
-                  </th>
-                  <th><%=crop.sellerName%></th>
-                  <th><%=crop.name%></th>
-                  <th><%=crop.description%></th>
-                  <th><%=crop.basePrice%></th>
-                  <th><%=crop.quantity%></th>
-                  <th><%=crop.category%></th>
-                  <th><%=crop.startDate%></th>
-                  <th><%=crop.endDate%></th>
-                </div>
-              </tr>
-            </form>
+                  />
+                </th>
+                <th><%=crop.sellerName%></th>
+                <th><%=crop.name%></th>
+                <th><%=crop.description%></th>
+                <th><%=crop.basePrice%></th>
+                <th><%=crop.quantity%></th>
+                <th><%=crop.category%></th>
+                <th><%=crop.startDate%></th>
+                <th><%=crop.endDate%></th>
+              </div>
+            </tr>
             <%})}%>
           </table>
         </div>

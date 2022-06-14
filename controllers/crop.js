@@ -31,8 +31,8 @@ module.exports = {
         const id = req.params.id;
         const name = req.params.name;
         const bid = req.body.bid;
-        var res = await buyerUser.findOne({ crops: id });
-        if (res == null) {
+        var x = await buyerUser.findOne({ crops: id });
+        if (x == null) {
             var result2 = await buyerUser.findOneAndUpdate({ name: name }, {
                 $push: {
                     crops: id
