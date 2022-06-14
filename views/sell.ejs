@@ -33,7 +33,11 @@
     <%-include('./partials/nav.ejs')%>
     <div>
       <h2 class="Alert"><%=alrt%></h2>
-      <form action="/post-crop/<%=title%>" method="POST">
+      <form
+        action="/post-crop/<%=title%>"
+        method="POST"
+        enctype="multipart/form-data"
+      >
         <table>
           <head>
             <tr>
@@ -139,6 +143,7 @@
       <table id="table2">
         <head>
           <tr>
+            <th><label for="crop-image">Crop Image</label></th>
             <th>
               <label for="seller-name">Seller Name</label>
             </th>
@@ -151,7 +156,6 @@
             <th><label for="Base-price">Base Price(per Kg)</label></th>
             <th><label for="quantity">Total Quantity</label></th>
             <th><label for="crop-category">Crop Category</label></th>
-            <th><label for="crop-image">Crop Image</label></th>
             <th><label for="start-date">Start Date</label></th>
             <th><label for="end-date">End Date</label></th>
           </tr>
@@ -159,13 +163,20 @@
         <%if(crops.length>=1){%> <%crops.forEach(crop=>{ %>
         <tr>
           <div class="rows">
+            <th>
+              <img
+                style="width: 500px"
+                src="data:image/<%=crop.crop_image.contentType%>;base64,
+              <%=crop.crop_image.data.toString('base64')%>"
+              />
+            </th>
             <th><%=crop.sellerName%></th>
             <th><%=crop.name%></th>
             <th><%=crop.description%></th>
             <th><%=crop.basePrice%></th>
             <th><%=crop.quantity%></th>
             <th><%=crop.category%></th>
-            <th><%=crop.image%></th>
+
             <th><%=crop.startDate%></th>
             <th><%=crop.endDate%></th>
           </div>

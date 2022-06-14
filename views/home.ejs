@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <%-include('./partials/bootstrap')%> <%-include('./partials/header.ejs')%>
+  <style>
+    th,
+    tr,
+    td {
+      padding: 10px;
+      border: solid black 1px;
+    }
+    button {
+      width: 10vw;
+    }
+  </style>
   <body>
     <%-include('./partials/nav.ejs')%>
     <div class="container">
@@ -16,6 +27,7 @@
           <table class="table table-striped">
             <head>
               <tr>
+                <th><label for="crop-image">Crop Image</label></th>
                 <th>
                   <label for="seller-name">Seller Name</label>
                 </th>
@@ -28,23 +40,30 @@
                 <th><label for="Base-price">Base Price(per Kg)</label></th>
                 <th><label for="quantity">Total Quantity</label></th>
                 <th><label for="crop-category">Crop Category</label></th>
-                <th><label for="crop-image">Crop Image</label></th>
+                <th><label for="start-date">Start Date</label></th>
+                <th><label for="end-date">End Date</label></th>
               </tr>
             </head>
             <%if(crops.length>=1){%> <%crops.forEach(crop=>{ %>
-            <form action="/buy-crop/<%=crop._id%>/<%=title%>" method="post">
-              <tr>
-                <div class="rows">
-                  <th><%=crop.sellerName%></th>
-                  <th><%=crop.name%></th>
-                  <th><%=crop.description%></th>
-                  <th><%=crop.basePrice%></th>
-                  <th><%=crop.quantity%></th>
-                  <th><%=crop.category%></th>
-                  <th><%=crop.image%></th>
-                </div>
-              </tr>
-            </form>
+            <tr>
+              <div class="rows">
+                <th>
+                  <img
+                    style="width: 300px"
+                    src="data:image/<%=crop.crop_image.contentType%>;base64,
+                    <%=crop.crop_image.data.toString('base64')%>"
+                  />
+                </th>
+                <th><%=crop.sellerName%></th>
+                <th><%=crop.name%></th>
+                <th><%=crop.description%></th>
+                <th><%=crop.basePrice%></th>
+                <th><%=crop.quantity%></th>
+                <th><%=crop.category%></th>
+                <th><%=crop.startDate%></th>
+                <th><%=crop.endDate%></th>
+              </div>
+            </tr>
             <%})}%>
           </table>
         </div>

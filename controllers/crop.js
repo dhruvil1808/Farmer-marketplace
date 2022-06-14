@@ -1,10 +1,13 @@
 const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
-
+const fs = require('fs');
+const path = require('path');
 module.exports = {
-    postCrop: (req, res) => {
+    postCrop: (req, res, next) => {
         const name = req.params.farmername;
         const postcrop = new crop(req.body);
+        postcrop.crop_image.data = fs.readFileSync(path.join('./public/uploads', req.file.filename));
+        postcrop.crop_image.contentType = 'image/png/jpg/jpeg';
         postcrop.sellerName = name;
         postcrop
             .save()
@@ -18,13 +21,18 @@ module.exports = {
                 res.render("404", { title: "404 Error hai" });
             }
             );
+        fs.unlink(path.join('./public/uploads', req.file.filename), (err) => {
+            if (err) throw err;
+            console.log('successfully deleted');
+        }
+        );
     },
     buyCrop: async (req, res) => {
         const id = req.params.id;
         const name = req.params.name;
         const bid = req.body.bid;
-        var res = await buyerUser.findOne({ crops: id });
-        if (res == null) {
+        var x = await buyerUser.findOne({ crops: id });
+        if (x == null) {
             var result2 = await buyerUser.findOneAndUpdate({ name: name }, {
                 $push: {
                     crops: id
