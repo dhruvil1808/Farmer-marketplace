@@ -42,7 +42,7 @@ module.exports = {
                 $push: { amount: bid }
             });
             if (result != null) {
-                var result2 = await crop.findByIdAndUpdate(id, { $push: { buyers: result2._id } });
+                var result2 = await crop.findByIdAndUpdate(id, { $push: { buyers: result._id } });
                 var result3 = await crop.findByIdAndUpdate(id, { $push: { amount: bid } });
                 if (result2 != null && result3 != null) {
                     allcrops = await crop.find({}).sort({ name: -1 });
@@ -54,11 +54,35 @@ module.exports = {
                 }
             }
             else {
-                res.render("buy", { title: name, alrt: "Bid Failed" });
+                allcrops = await crop.find({}).sort({ name: -1 });
+                res.render("buy", { crops: allcrops, title: name, alrt: "Bid Failed" });
             }
         }
         else {
-            res.render("buy", { title: name, alrt: "" });
+            allcrops = await crop.find({}).sort({ name: -1 });
+            res.render("buy", { crops: allcrops, title: name, alrt: "" });
+        }
+    },
+    buySearch: async (req, res) => {
+        const { search } = req.query;
+        const name = req.params.name;
+        allcrops = await crop.find({ $or: [{ name: search }, { sellerName: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }).sort({ createdAt: -1 });
+        if (allcrops != null) {
+            res.render("buy", { crops: allcrops, title: name, alrt: "" });
+        }
+        else {
+            res.render("buy", { crops: allcrops, title: name, alrt: "No results" });
+        }
+    },
+    sellSearch: async (req, res) => {
+        const { search } = req.query;
+        const sellername = req.params.name;
+        allcrops = await crop.find({ $and: [{ $or: [{ name: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }, { sellerName: sellername }] }).sort({ createdAt: -1 });
+        if (allcrops != null) {
+            res.render("sell", { crops: allcrops, title: sellername, alrt: "" });
+        }
+        else {
+            res.render("sell", { crops: allcrops, title: sellername, alrt: "No results" });
         }
     }
 }

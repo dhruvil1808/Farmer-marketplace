@@ -40,7 +40,7 @@ module.exports = {
             result = await farmerUser.findOne({ pno: name, password: pass });
             ch = 1;
         }
-        else if (result == null) {
+        if (result == null) {
             result = await buyerUser.findOne({ pno: name, password: pass });
             ch = 0;
         }
@@ -49,7 +49,7 @@ module.exports = {
                 buyerUser.find({})
                     .sort({ createdAt: -1 })
                     .then(async (results) => {
-                        allcrops = await crop.find({}).sort({ name: -1 });
+                        allcrops = await crop.find({}).sort({ createdAt: -1 });
                         res.render("buy", { user: results, title: result.name, crops: allcrops, alrt: '' });
                     })
                     .catch((err) => {
@@ -61,7 +61,7 @@ module.exports = {
                 farmerUser.find({})
                     .sort({ createdAt: -1 })
                     .then(async (results) => {
-                        allcrops = await crop.find({ sellerName: result.name }).sort({ name: -1 });
+                        allcrops = await crop.find({ sellerName: result.name }).sort({ createdAt: -1 });
                         res.render("sell", { title: result.name, crops: allcrops, alrt: '' });
                     })
                     .catch((err) => {

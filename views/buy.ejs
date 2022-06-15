@@ -5,6 +5,15 @@
     <%-include('./partials/nav.ejs')%>
     <div class="container">
       <h2 class="Alert"><%=alrt%></h2>
+      <form action="/buy-search/<%=title%>" method="get">
+        <input
+          name="search"
+          style="width: fit-content"
+          type="text"
+          placeholder="Filter by seller, crop, price, quantity, date"
+        />
+      </form>
+      <br />
       <table>
         <head>
           <tr>

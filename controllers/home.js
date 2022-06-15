@@ -2,7 +2,7 @@ const { crop } = require('../model/crops');
 
 module.exports = {
     index: async (req, res) => {
-        allcrops = await crop.find({}).sort({ name: -1 });
+        allcrops = await crop.find({}).sort({ createdAt: -1 });
         res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: '' });
     },
     signup: (req, res) => {
@@ -19,6 +19,11 @@ module.exports = {
     },
     about: (req, res) => {
         res.render('about.ejs', { title: 'About', alrt: '' });
+    },
+    search: async (req, res) => {
+        const { search } = req.query;
+        allcrops = await crop.find({ $or: [{ name: search }, { sellerName: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }).sort({ createdAt: -1 });
+        res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: '' });
     },
 }
 
