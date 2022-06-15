@@ -62,7 +62,7 @@ module.exports = {
                     .sort({ createdAt: -1 })
                     .then(async (results) => {
                         allcrops = await crop.find({ sellerName: result.name }).sort({ name: -1 });
-                        res.render("sell", { users: results, title: result.name, crops: allcrops, alrt: '' });
+                        res.render("sell", { title: result.name, crops: allcrops, alrt: '' });
                     })
                     .catch((err) => {
                         console.log(err);

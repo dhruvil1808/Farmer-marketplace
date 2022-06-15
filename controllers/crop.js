@@ -12,7 +12,7 @@ module.exports = {
         postcrop
             .save()
             .then(async (result) => {
-                allcrops = await crop.find({}).sort({ name: -1 });
+                allcrops = await crop.find({ sellerName: name }).sort({ name: -1 });
                 await farmerUser.findOneAndUpdate({ name: name }, { $push: { crops: postcrop._id } });
                 res.render("sell", { title: name, crops: allcrops, alrt: "Crop Posted Successfully" });
             }
