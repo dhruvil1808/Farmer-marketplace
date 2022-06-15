@@ -1,37 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <%-include('./partials/bootstrap')%> <%-include('./partials/header.ejs')%>
-  <style>
-    #table2 th,
-    #table2 tr,
-    #table2 td {
-      padding: 10px;
-      border: solid black 1px;
-    }
-    input,
-    select {
-      width: 100%;
-      padding: 12px 20px;
-      margin: 8px 0;
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-    }
-    input[type="submit"] {
-      width: 100%;
-      background-color: #4caf50;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-  </style>
   <body>
     <%-include('./partials/nav.ejs')%>
-    <div>
+    <div class="sell">
       <h2 class="Alert"><%=alrt%></h2>
       <form
         action="/post-crop/<%=title%>"
@@ -165,7 +137,7 @@
           <div class="rows">
             <th>
               <img
-                style="width: 500px"
+                id="crop-image"
                 src="data:image/<%=crop.crop_image.contentType%>;base64,
               <%=crop.crop_image.data.toString('base64')%>"
               />

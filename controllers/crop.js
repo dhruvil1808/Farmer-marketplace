@@ -30,32 +30,35 @@ module.exports = {
     buyCrop: async (req, res) => {
         const id = req.params.id;
         const name = req.params.name;
-        const bid = req.body.bid;
-        var x = await buyerUser.findOne({ crops: id });
-        if (x == null) {
-            var result2 = await buyerUser.findOneAndUpdate({ name: name }, {
+        const bid = req.body.bid
+        var obj = await buyerUser.findOne({ crops: id });
+        if (obj == null) {
+            var result = await buyerUser.findOneAndUpdate({ name: name }, {
                 $push: {
                     crops: id
                 }
             });
-            var result2 = await buyerUser.findOneAndUpdate({ name: name }, {
+            var result = await buyerUser.findOneAndUpdate({ name: name }, {
                 $push: { amount: bid }
             });
-            if (result2 != null) {
-                var result = await crop.findByIdAndUpdate(id, { $push: { buyers: result2._id } });
-                var result = await crop.findByIdAndUpdate(id, { $push: { amount: bid } });
-                if (result !== null) {
+            if (result != null) {
+                var result2 = await crop.findByIdAndUpdate(id, { $push: { buyers: result2._id } });
+                var result3 = await crop.findByIdAndUpdate(id, { $push: { amount: bid } });
+                if (result2 != null && result3 != null) {
                     allcrops = await crop.find({}).sort({ name: -1 });
                     res.render("buy", { crops: allcrops, title: name, alrt: "Bid Placed Successfully" });
                 }
                 else {
                     allcrops = await crop.find({}).sort({ name: -1 });
-                    res.render("buy", { crops: allcrops, title: name, alrt: "Bid Failed" });
+                    res.render("buy", { crops: allcrops, title: name, alrt: "Bid Unsuccessful" });
                 }
             }
             else {
                 res.render("buy", { title: name, alrt: "Bid Failed" });
             }
+        }
+        else {
+            res.render("buy", { title: name, alrt: "" });
         }
     }
 }

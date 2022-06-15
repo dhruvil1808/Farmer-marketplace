@@ -4,7 +4,6 @@
   <%-include('./partials/header.ejs')%>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script>
-    
     $(document).ready(function(){
       var val=$('.username').text();
     console.log(val);
@@ -33,7 +32,7 @@
   <body>
     <%-include("./partials/nav.ejs")%>
     <div class="create-user">
-      <li style="width:fit-content;display: flex;margin-left: 40vw;"><button style="font-size:25px;margin-right:10%;" id="button1">Farmer</button> <button style="font-size:25px;" id="button2">Buyer</button></li>
+      <li class="type-button"><button id="farmer-button">Farmer</button> <button id="buyer-button">Buyer</button></li>
         <div id="farmer">
           <form action="/createseller" method="POST">
             <h4>Create Farmer account</h4>
@@ -46,11 +45,11 @@
             <input type="text" id="kisaan_id" name="kisaan_id" required />
             <li><label for="pno">Phone Number</label></li>
             <input type="text" id="pno" name="pno" required />
-          <li><label for="password">Password</label></li>
+            <li><label for="password">Password</label></li>
             <input type="password" id="password" name="password" required />
             <li><label for="c-password">Confirm Password</label></li>
             <input type="password" id="c-password" name="c-password" required />
-          <li><label for="dob">Date of Birth</label></li>
+            <li><label for="dob">Date of Birth</label></li>
             <input type="date" id="dob" name="dob" required />
             <button onclick="validate()">Continue</button>
             <li><a href="/">Already have an account?</a></li>
@@ -62,7 +61,7 @@
         <div id="buyer">
           <form action="/createbuyer" method="POST">
           <h4>Create Buyer account</h4>
-         <ul>
+        <ul>
           <li><label for="name">Name</label></li>
           <input type="text" id="name" name="name" required />
           <li><label for="aadhar">AAdhar Card Number</label></li>
@@ -71,17 +70,16 @@
           <input type="text" id="email" name="email" required />
           <li><label for="pno">Phone Number</label></li>
           <input type="text" id="pno" name="pno" required />
-        <li><label for="password">Password</label></li>
+          <li><label for="password">Password</label></li>
           <input type="password" id="password" name="password" required />
           <li><label for="c-password">Confirm Password</label></li>
           <input type="password" id="c-password" name="c-password" required />
-        <li><label for="dob">Date of Birth</label></li>
+          <li><label for="dob">Date of Birth</label></li>
           <input type="date" id="dob" name="dob" required />
           <button onclick="validate()">Continue</button>
           <li><a href="/">Already have an account?</a></li>
-          </ul>
-          <script src="/validate.js"> 
-          </script>
+        </ul>
+        <script src="/validate.js"></script>
         </form>
       </div>
     </div>

@@ -33,7 +33,6 @@
                 <th><label for="end-date">End Date</label></th>
               </tr>
             </head>
-            <%if(crops.length>=1){%> <%crops.forEach(crop=>{ %>
             <tr>
               <div class="rows">
                 <th>
@@ -53,6 +52,7 @@
                 <th><%=crop.endDate%></th>
               </div>
             </tr>
+            <%if(crops.buyers.length>=1){%> <%crops.buyers.forEach(crop=>{ %>
             <%})}%>
           </table>
         </div>
