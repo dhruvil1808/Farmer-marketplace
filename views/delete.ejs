@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('./partials/bootstrap.ejs')%> <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include('./partials/nav.ejs')%>
+    <div class="create-user">
+        <form action="/delete/" method="post">
+          <h4>Enter your password</h4>
+         <ul>
+          <li><label for="username">Name</label></li>
+          <input type="text" id="username" name="username" value="<%=username%>" required />
+          <li><label for="password">Password</label></li>
+            <input type="password" id="password" name="password" required />
+            <button>Delete</button>
+          </ul>
+        </form>
+  </body>
+</html>

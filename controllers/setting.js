@@ -1,6 +1,14 @@
 const { buyerUser, farmerUser } = require('../model/credentials');
-
+const { crop } = require('../model/crops');
 module.exports = {
+    setting: async (req, res) => {
+        const username = req.params.username;
+        var result = await buyerUser.findOne({ name: username });
+        if (result == null) {
+            result = await farmerUser.findOne({ name: username });
+        }
+        res.render("settings", { title: "Preferences", user: result });
+    },
     reset: (req, res) => {
         res.render('reset.ejs', { title: 'Reset Password', alrt: '' });
     },
@@ -33,6 +41,116 @@ module.exports = {
             });
         } else {
             res.render("signin", { title: "Horizon", alrt: "Password Reset" });
+        }
+    },
+    resetDetails: async (req, res) => {
+        const username = req.params.username;
+        var result = await buyerUser.findOne({ name: username });
+        if (result == null) {
+            result = await farmerUser.findOne({ name: username });
+        }
+        if (result != null) {
+            res.render("reset-data", { title: "Reset Details", user: result });
+        }
+    },
+    resetData: async (req, res) => {
+        var allcrops = await crop.find({}).sort({ createdAt: -1 });
+        const username = req.params.username;
+        var result = await buyerUser.findOneAndUpdate(
+            { name: username },
+            {
+                name: req.body.name,
+                aadhar: req.body.aadhar,
+                dob: req.body.dob,
+                pno: req.body.pno,
+            }
+        );
+        if (result == null) {
+            result = await farmerUser.findOneAndUpdate(
+                { name: username },
+                {
+                    name: req.body.name,
+                    aadhar: req.body.aadhar,
+                    dob: req.body.dob,
+                    pno: req.body.pno,
+                }
+            );
+            if (result != null) {
+                farmerUser.email = res.email;
+                farmerUser.dob = res.dob;
+                farmerUser.pno = res.pno;
+                farmerUser.username = res.username;
+                res.render("home", {
+                    crops: allcrops,
+                    title: "Horizon",
+                    alrt: "Data Reset",
+                });
+            } else {
+                res.render("home", { crops: allcrops, title: "horizon", alrt: "No such User" });
+            }
+
+        }
+        else {
+            if (result != null) {
+                buyerUser.email = res.email;
+                buyerUser.dob = res.dob;
+                buyerUser.pno = res.pno;
+                buyerUser.username = res.username;
+                res.render("home", {
+                    crops: allcrops,
+                    title: "Horizon",
+                    alrt: "Data Reset",
+                });
+            } else {
+                res.render("home", { crops: allcrops, title: "Horizon", alrt: "No such User" });
+            }
+        }
+
+    },
+    delete: async (req, res) => {
+        const username = req.params.username;
+        res.render("delete", { title: "Delete Account", username: username });
+    },
+    deleteUser: async (req, res) => {
+        const username = req.body.username;
+        const pass = req.body.password;
+        var result = await farmerUser.findOneAndDelete({
+            name: username,
+            password: pass,
+        });
+        if (result == null) {
+            result = await buyerUser.findOneAndDelete({
+                name: username,
+                password: pass,
+            });
+            if (result != null) {
+                result.crops.forEach(async (x) => {
+                    var index = await crop.findOne({ _id: x });
+                    index = index.buyers.indexOf(result._id);
+                    var result2 = await crop.findByIdAndUpdate(x, { $pull: { buyers: result._id } });
+                    /* console.log(result2.amount[index]);
+                    $pull: [result2.amount[index]];
+                    await crop.findByIdAndUpdate(x, { $pull: [result2.amount[index]] }); */
+                });
+                var allcrops = await crop.find({}).sort({ createdAt: -1 });
+                res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: 'User Deleted' });
+            }
+            else {
+                var allcrops = await crop.find({}).sort({ createdAt: -1 });
+                res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: 'User not Deleted' });
+            }
+        }
+        else {
+            result.crops.forEach(async (x) => {
+                await crop.findByIdAndDelete(x._id);
+            });
+            if (result != null) {
+                var allcrops = await crop.find({}).sort({ createdAt: -1 });
+                res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: 'User Deleted' });
+            } else {
+                var allcrops = await crop.find({}).sort({ createdAt: -1 });
+                res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: 'User not Deleted' });
+            }
         }
     }
 }

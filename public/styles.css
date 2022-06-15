@@ -201,6 +201,12 @@ nav a {
   list-style-type: none;
 }
 
+.settings-container{
+  display: flex;
+  justify-content: space-between;
+
+}
+
 #settings-card {
   width: fit-content;
   height: 80vh;
@@ -210,6 +216,7 @@ nav a {
   padding-bottom: 1%;
   background-color: rgb(37, 37, 37);
   color: gray;
+  margin-right: 2%;
 }
 #settings-card .row {
   padding: 2%;
@@ -235,7 +242,7 @@ nav a {
   padding: 0;
 }
 #info ul h4 {
-  font-size: 2.5vw;
+  font-size: 2vw;
   border-radius: 3px;
   padding-left: 2%;
   margin-right: 4%;

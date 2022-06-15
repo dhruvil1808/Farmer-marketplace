@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('./partials/bootstrap.ejs')%> <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include('./partials/nav2.ejs')%>
+    <div class="settings-container">
+      <div class="card" id="settings-card">
+        <div class="col">
+          <a><div class="row">Account Info</div></a>
+          <a href="/reset-data/<%=user.name%>" style="color:rgb(168, 168, 168);"><div class="row">Change account Details</div></a>
+          <a href="/reset" style="color:rgb(168, 168, 168);"><div class="row">Reset Password</div></a>
+          <a href="/delete/<%=user.name%>" style="color:rgb(168, 168, 168);"><div class="row">Delete Account</div></a>
+          <a href="/" style="color:rgb(168, 168, 168);"><div class="row">Logout</div></a>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card" id="card2">
+          <h3 style="color:white; margin-top: 5%;">Account Details</h3>
+          <div class="card" id="info">
+            <ul>
+              <li><h6>Username</h4></li>
+              <li><h4 style="color: white;"><%-user.name%></h5></li>
+              <li><h6>Phone Number</h4></li>
+              <li><h4 style="color: white;"><%-user.pno%></h5></li>
+              <li><h6>Date of Birth</h4></li>
+              <li><h4 style="color: white;"><%-user.dob%></h5></li>
+              <li><h6>Aadhar Number</h4></li>
+              <li><h4 style="color: white;"><%-user.aadhar%></h5></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
