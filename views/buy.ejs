@@ -24,6 +24,7 @@
             <th>
               <label for="crop-name">Crop Name</label>
             </th>
+            <th><label for="state">State</label></th>
             <th>
               <label for="crop-description">Crop Description</label>
             </th>
@@ -40,21 +41,23 @@
           <tr>
             <div class="rows">
               <th>
+                <a href="/bids/<%=crop._id%>/<%=title%>">
                 <img
                   id="crop-image"
                   src="data:image/<%=crop.crop_image.contentType%>;base64,
                 <%=crop.crop_image.data.toString('base64')%>"
-                />
+                /></a>
               </th>
-              <th><%=crop.sellerName%></th>
-              <th><%=crop.name%></th>
-              <th><%=crop.description%></th>
-              <th><%=crop.basePrice%></th>
-              <th><%=crop.quantity%></th>
-              <th><%=crop.category%></th>
-              <th><%=crop.startDate%></th>
-              <th><%=crop.endDate%></th>
-              <th><input type="text" name="bid" id="bid" /></th>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.sellerName%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.name%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.state%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.description%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.basePrice%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.quantity%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.category%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.startDate%></th></a>
+              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.endDate%></th></a>
+              <th><input type="text" name="bid" id="bid" /></th></a>
               <th>
                 <button>Buy</button>
               </th>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('./partials/bootstrap')%> <%-include('./partials/header.ejs')%>
+  <body>
+    <%-include('./partials/nav.ejs')%>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-striped">
+            <head>
+              <tr>
+                <th><label for="crop-image">Crop Image</label></th>
+                <th>
+                  <label for="seller-name">Seller Name</label>
+                </th>
+                <th>
+                  <label for="crop-name">Crop Name</label>
+                </th>
+                <th><label for="state">State</label></th>
+                <th>
+                  <label for="crop-description">Crop Description</label>
+                </th>
+                <th><label for="Base-price">Base Price(per Kg)</label></th>
+                <th><label for="quantity">Total Quantity</label></th>
+                <th><label for="crop-category">Crop Category</label></th>
+                <th><label for="start-date">Start Date</label></th>
+                <th><label for="end-date">End Date</label></th>
+                <th><label for="bid">Your Bid</label></th>
+              </tr>
+            </head>
+            <form action="/buy-crop/<%=crop._id%>/<%=title%>" method="post">
+              <tr>
+                <div class="rows">
+                  <th>
+                    <img
+                      id="crop-image"
+                      src="data:image/<%=crop.crop_image.contentType%>;base64,
+                    <%=crop.crop_image.data.toString('base64')%>"
+                    />
+                  </th>
+                  <th><%=crop.sellerName%></th>
+                  <th><%=crop.name%></th>
+                  <th><%=crop.state%></th>
+                  <th><%=crop.description%></th>
+                  <th><%=crop.basePrice%></th>
+                  <th><%=crop.quantity%></th>
+                  <th><%=crop.category%></th>
+                  <th><%=crop.startDate%></th>
+                  <th><%=crop.endDate%></th>
+                  <th><input type="text" name="bid" id="bid" /></th>
+                  <th>
+                    <button>Buy</button>
+                  </th>
+                </div>
+              </tr>
+            </form>
+          </table>
+          <table>
+            <tr>
+              <th><label for="Buyer Name">Buyer Name</label></th>
+              <th><label for="Amount">Amount</label></th>
+            </tr>
+            <%if(buyers.length>0){%><%buyers.forEach(buyer=>{ %>
+            <tr>
+              <td><%=buyer.name%></td>
+              <td><%=buyer.amount%></td>
+            </tr>
+            <%})}%>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

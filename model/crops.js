@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { required } = require("nodemon/lib/config");
 const schema = mongoose.Schema; //create a schema
 
 const cropSchema = new schema( //creating a schema
@@ -10,6 +9,7 @@ const cropSchema = new schema( //creating a schema
         quantity: { type: String, required: true },
         basePrice: { type: String, required: true },
         description: { type: String, required: true },
+        state: { type: String, required: true },
         startDate: { type: String, required: true },
         endDate: { type: String, required: true },
         crop_image: {

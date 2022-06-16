@@ -20,4 +20,6 @@ router.post('/buy-crop/:id/:name', cropcontroller.buyCrop);
 router.get('/buy-search/:name', cropcontroller.buySearch);
 router.get('/sell-search/:name', cropcontroller.sellSearch);
 
+router.get('/bids/:id', cropcontroller.bids);
+router.get('/bids/:id/:name', cropcontroller.bidsForBuyer);
 module.exports = router;

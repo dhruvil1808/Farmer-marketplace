@@ -22,7 +22,7 @@ module.exports = {
     },
     search: async (req, res) => {
         const { search } = req.query;
-        allcrops = await crop.find({ $or: [{ name: search }, { sellerName: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }).sort({ createdAt: -1 });
+        allcrops = await crop.find({ $or: [{ name: search }, { state: search }, { sellerName: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }).sort({ createdAt: -1 });
         res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: '' });
     },
 }
