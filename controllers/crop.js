@@ -37,8 +37,10 @@ module.exports = {
         }
         else {
             var obj = await buyerUser.findOne({ crops: id });
-            if (obj == null || obj.amount < bid) {
-                console.log("Hello");
+            var obj1 = await crop.findOne({ _id: id });
+            obj1.amount.sort(function (a, b) { return a - b });
+            obj1.amount.reverse();
+            if (obj == null || obj.amount < bid && obj1.amount[0] < bid) {
                 var result = await buyerUser.findOneAndUpdate({ name: name }, {
                     $push: {
                         crops: id
@@ -66,7 +68,7 @@ module.exports = {
             }
             else {
                 allcrops = await crop.find({}).sort({ name: -1 });
-                res.render("buy", { crops: allcrops, title: name, alrt: "" });
+                res.render("buy", { crops: allcrops, title: name, alrt: "Place a higher Bid" });
             }
         }
     },
@@ -102,15 +104,15 @@ module.exports = {
                 var temp = await buyerUser.findById(result.buyers[i]);
                 obj[i] = { name: temp.name, amount: parseInt(result.amount[i]) }
             }
-            //reverse the array to show the highest bid first
+            obj.sort(function (a, b) { return a.amount - b.amount });
             obj.reverse();
             if (obj != [] && obj != null) {
-                res.render("bids", { buyers: obj, crop: result, title: "Bids" });
+                res.render("bids", { buyers: obj, crop: result, title: "Bids", alrt: "" });
             }
         }
         else {
             obj = [{ length: 0 }];
-            res.render("bids", { buyers: obj, crop: result, title: "Bids" });
+            res.render("bids", { buyers: obj, crop: result, title: "Bids", alrt: "No Bids" });
         }
     },
     bidsForBuyer: async (req, res) => {
@@ -124,14 +126,15 @@ module.exports = {
                 var temp = await buyerUser.findById(result.buyers[i]);
                 obj[i] = { name: temp.name, amount: parseInt(result.amount[i]) }
             }
+            obj.sort(function (a, b) { return a.amount - b.amount });
             obj.reverse();
             if (obj != [] && obj != null) {
-                res.render("bids", { buyers: obj, crop: result, title: name });
+                res.render("bids", { buyers: obj, crop: result, title: name, alrt: "" });
             }
         }
         else {
             obj = [{ length: 0 }];
-            res.render("bids", { buyers: obj, crop: result, title: name });
+            res.render("bids", { buyers: obj, crop: result, title: name, alrt: "No Bids" });
         }
     }
 }

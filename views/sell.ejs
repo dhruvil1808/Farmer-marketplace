@@ -145,19 +145,19 @@
         <tr>
           <div class="rows">
             <th>
-              <img
+              <a href="/bids/<%=crop._id%>"><img
                 id="crop-image"
                 src="data:image/<%=crop.crop_image.contentType%>;base64,
               <%=crop.crop_image.data.toString('base64')%>"
-              />
+              /><a href="">
             </th>
-            <th><%=crop.sellerName%></th>
-            <th><%=crop.name%></th>
-            <th><%=crop.state%></th>
-            <th><%=crop.description%></th>
-            <th><%=crop.basePrice%></th>
-            <th><%=crop.quantity%></th>
-            <th><%=crop.category%></th>
+            <th><a href="/bids/<%=crop._id%>"><%=crop.sellerName%></th><a href="">
+            <th><a href="/bids/<%=crop._id%>"><%=crop.name%></th><a href="">
+            <th><a href="/bids/<%=crop._id%>"><%=crop.state%></th><a href="">
+            <th><a href="/bids/<%=crop._id%>"><%=crop.description%></th><a href="">
+            <th><a href="/bids/<%=crop._id%>"><%=crop.basePrice%></th><a href="">
+            <th><a href="/bids/<%=crop._id%>"><%=crop.quantity%></th><a href="">
+            <th><a href="/bids/<%=crop._id%>"><%=crop.category%></th><a href="">
 
             <th><%=crop.startDate%></th>
             <th><%=crop.endDate%></th>
