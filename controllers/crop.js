@@ -36,23 +36,31 @@ module.exports = {
             res.redirect("/bids/" + id);
         }
         else {
-            var obj = await buyerUser.findOne({ crops: id });
-            var obj1 = await crop.findOne({ _id: id });
-            obj1.amount.sort(function (a, b) { return a - b });
-            obj1.amount.reverse();
-            if (obj == null || obj.amount < bid && obj1.amount[0] < bid) {
-                var result = await buyerUser.findOneAndUpdate({ name: name }, {
-                    $push: {
-                        crops: id
-                    }
-                });
-                var result = await buyerUser.findOneAndUpdate({ name: name }, {
-                    $push: { amount: bid }
-                });
+            var obj = await crop.findOne({ _id: id });
+            var temp;
+            if (obj.bids.length > 0) {
+                temp = obj.bids.sort(function (a, b) { return a.amount - b.amount });
+                temp = temp.reverse();
+            }
+            if (obj.bids.length === 0 || parseInt(temp[0].amount) < bid) {
+                var result = await buyerUser.findOne({ name: name });
                 if (result != null) {
-                    var result2 = await crop.findByIdAndUpdate(id, { $push: { buyers: result._id } });
-                    var result3 = await crop.findByIdAndUpdate(id, { $push: { amount: bid } });
-                    if (result2 != null && result3 != null) {
+                    var x = {
+                        buyer: result.name,
+                        buyerid: result._id,
+                        amount: bid
+                    };
+                    var result2 = await crop.findByIdAndUpdate(id, { $push: { bids: x } });
+                    var x = {
+                        crop: result2._id,
+                        amount: bid
+                    };
+                    var result = await buyerUser.findOneAndUpdate({ name: name }, {
+                        $push: {
+                            bids: x
+                        }
+                    });
+                    if (result2 != null) {
                         allcrops = await crop.find({}).sort({ name: -1 });
                         res.render("buy", { crops: allcrops, title: name, alrt: "Bid Placed Successfully" });
                     }
@@ -97,44 +105,32 @@ module.exports = {
     bids: async (req, res) => {
         const id = req.params.id;
         const result = await crop.findById(id);
-        if (result != null && result.buyers.length > 0) {
-            var obj = [];
-            var i = 0;
-            for (i = 0; i < result.buyers.length; i++) {
-                var temp = await buyerUser.findById(result.buyers[i]);
-                obj[i] = { name: temp.name, amount: parseInt(result.amount[i]) }
-            }
-            obj.sort(function (a, b) { return a.amount - b.amount });
-            obj.reverse();
+        if (result != null && result.bids.length > 0) {
+            var obj = result.bids.sort(function (a, b) { return a.amount - b.amount });
+            obj = obj.reverse();
             if (obj != [] && obj != null) {
-                res.render("bids", { buyers: obj, crop: result, title: "Bids", alrt: "" });
+                res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "" });
             }
         }
         else {
             obj = [{ length: 0 }];
-            res.render("bids", { buyers: obj, crop: result, title: "Bids", alrt: "No Bids" });
+            res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "No Bids" });
         }
     },
     bidsForBuyer: async (req, res) => {
         const id = req.params.id;
         const name = req.params.name;
         const result = await crop.findById(id);
-        if (result != null && result.buyers.length > 0) {
-            var obj = [];
-            var i = 0;
-            for (i = 0; i < result.buyers.length; i++) {
-                var temp = await buyerUser.findById(result.buyers[i]);
-                obj[i] = { name: temp.name, amount: parseInt(result.amount[i]) }
-            }
-            obj.sort(function (a, b) { return a.amount - b.amount });
-            obj.reverse();
+        if (result != null && result.bids.length > 0) {
+            var obj = result.bids.sort(function (a, b) { return a.amount - b.amount });
+            obj = obj.reverse();
             if (obj != [] && obj != null) {
-                res.render("bids", { buyers: obj, crop: result, title: name, alrt: "" });
+                res.render("bids", { bids: obj, crop: result, title: name, alrt: "" });
             }
         }
         else {
             obj = [{ length: 0 }];
-            res.render("bids", { buyers: obj, crop: result, title: name, alrt: "No Bids" });
+            res.render("bids", { bids: obj, crop: result, title: name, alrt: "No Bids" });
         }
     }
 }

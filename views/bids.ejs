@@ -61,10 +61,10 @@
               <th><label for="Buyer Name">Buyer Name</label></th>
               <th><label for="Amount">Amount</label></th>
             </tr>
-            <%if(buyers.length>0){%><%buyers.forEach(buyer=>{ %>
+            <%if(bids.length>0){%><%bids.forEach(bid=>{ %>
             <tr>
-              <td><%=buyer.name%></td>
-              <td><%=buyer.amount%></td>
+              <td><%=bid.buyer%></td>
+              <td><%=bid.amount%></td>
             </tr>
             <%})} else{%>
             <tr>
