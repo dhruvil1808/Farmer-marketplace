@@ -10,8 +10,10 @@ const userSchema = new schema( //creating a schema
         dob: { type: String, required: true },
         state: { type: String, required: true },
         password: { type: String, required: true },
-        crops: { type: Array, required: false },
-        amount: { type: Array, required: false },
+        bids: [{
+            crop: { type: Array, required: false },
+            amount: { type: String, required: false },
+        }]
     },
     { timestamps: true }
 );
