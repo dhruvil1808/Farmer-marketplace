@@ -124,13 +124,18 @@ module.exports = {
                 password: pass,
             });
             if (result != null) {
-                result.crops.forEach(async (x) => {
-                    var index = await crop.findOne({ _id: x });
-                    index = index.buyers.indexOf(result._id);
-                    var result2 = await crop.findByIdAndUpdate(x, { $pull: { buyers: result._id } });
-                    /* console.log(result2.amount[index]);
-                    $pull: [result2.amount[index]];
-                    await crop.findByIdAndUpdate(x, { $pull: [result2.amount[index]] }); */
+                result.bids.forEach(async (x) => {
+                    var temp = await crop.findOne({ _id: x.crop });
+                    var res = [];
+                    temp.bids.forEach((y) => {
+                        if (y.buyer == username) {
+                        }
+                        else {
+                            res.push(y);
+                        }
+                    }
+                    );
+                    var xyz = await crop.findByIdAndUpdate(x.crop, { bids: res });
                 });
                 var allcrops = await crop.find({}).sort({ createdAt: -1 });
                 res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: 'User Deleted' });
