@@ -2,7 +2,7 @@ const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
 const passport = require('passport');
 const initializePassport = require('../middleware/passport');
-const session = require('express-session');
+const bcrypt = require('bcrypt');
 async function findUserByName(name) {
     var result = await buyerUser.findOne({ email: name });
     if (result == null) {
@@ -21,34 +21,48 @@ async function findUserByID(id) {
 initializePassport(passport, (search1 => findUserByName(search1)), (id => findUserByID(id)));
 
 module.exports = {
-    createBuyer: (req, res) => {
-        const buyeruser = new buyerUser(req.body);
-        buyeruser
-            .save()
-            .then((result) => {
-                res.render("signin", {
-                    title: "Horizon",
-                    alrt: "User Created Successfully",
+    createBuyer: async (req, res) => {
+        try {
+            const buyeruser = new buyerUser(req.body);
+            const hashedPassword = await bcrypt.hash(buyeruser.password, 10);
+            buyeruser.password = hashedPassword;
+            buyeruser
+                .save()
+                .then((result) => {
+                    res.render("signin", {
+                        title: "Horizon",
+                        alrt: "User Created Successfully",
+                    });
+                })
+                .catch((err) => {
+                    res.render("404", { title: "404 Error" });
                 });
-            })
-            .catch((err) => {
-                res.render("404", { title: "404 Error" });
-            });
+        }
+        catch (err) {
+            res.render("404", { title: "404 Error" });
+        }
     },
-    createSeller: (req, res) => {
-        const selleruser = new farmerUser(req.body);
-        selleruser
-            .save()
-            .then((result) => {
-                res.render("signin", {
-                    title: "Horizon",
-                    alrt: "User Created Successfully",
+    createSeller: async (req, res) => {
+        try {
+            const selleruser = new farmerUser(req.body);
+            const hashedPassword = await bcrypt.hash(selleruser.password, 10);
+            selleruser.password = hashedPassword;
+            selleruser
+                .save()
+                .then((result) => {
+                    res.render("signin", {
+                        title: "Horizon",
+                        alrt: "User Created Successfully",
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                    res.render("404", { title: "404 Error" });
                 });
-            })
-            .catch((err) => {
-                console.log(err);
-                res.render("404", { title: "404 Error" });
-            });
+        }
+        catch (err) {
+            res.render("404", { title: "404 Error" });
+        }
     },
     login: async (req, res, next) => {
         if (req.user.kisaan_id == undefined) {

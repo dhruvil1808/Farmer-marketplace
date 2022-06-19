@@ -1,4 +1,4 @@
-const { buyerUser, farmerUser } = require('../model/credentials');
+const bcrypt = require('bcrypt');
 const localStrategy = require('passport-local').Strategy;
 
 function initialize(passport, getUserByName, getUserById) {
@@ -7,11 +7,16 @@ function initialize(passport, getUserByName, getUserById) {
         if (user == null) {
             return done(null, false, { message: 'No user with credentials' });
         }
-        if (user.password == search2) {
-            return done(null, user);
+        try {
+            if (await bcrypt.compare(search2, user.password)) {
+                return done(null, user);
+            }
+            else {
+                return done(null, false, { message: 'Incorrect password' });
+            }
         }
-        else {
-            return done(null, false, { message: 'Incorrect password' });
+        catch (err) {
+            return done(err);
         }
     }
     passport.use(new localStrategy({ usernameField: 'search1', passwordField: 'search2' }, authenticateUser));
