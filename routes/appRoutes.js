@@ -5,7 +5,7 @@ const usercontroller = require('../controllers/user');
 const cropcontroller = require('../controllers/crop');
 const { upload } = require('../middleware/multer');
 const passport = require('passport');
-const { checkAuth, checkNotAuth } = require('../middleware/checkauth');
+const { checkAuth, checkNotAuth } = require('../middleware/checkAuth');
 
 router.get('/', checkNotAuth, homecontroller.index);
 router.get('/sign-up/:value', checkNotAuth, homecontroller.signup);
