@@ -4,10 +4,13 @@
   <body>
     <%-include('./partials/nav.ejs')%>
     <div class="create-user">
-      <form action="/login/" method="GET">
+      <form action="/signin" method="POST">
         <h3>Welcome Back!</h3>
         <h5>We are so excited to see you again!</h5>
         <h2 class="Alert"><%=alrt%></h2>
+        <%if(messages.error){%>
+        <h2 class="Alert"><%=messages.error%></h2>
+        <%}%>
         <ul>
           <li><label>EMAIL OR PHONE NUMBER</label></li>
           <input type="text" name="search1" />

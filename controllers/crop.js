@@ -3,134 +3,181 @@ const { crop } = require('../model/crops');
 const fs = require('fs');
 const path = require('path');
 module.exports = {
-    postCrop: async (req, res) => {
-        const name = req.params.farmername;
-        const temp = await farmerUser.findOne({ name: name });
+    postCrop: (req, res) => {
+
         const postcrop = new crop(req.body);
         postcrop.crop_image.data = fs.readFileSync(path.join('./public/uploads', req.file.filename));
         postcrop.crop_image.contentType = 'image/png/jpg/jpeg';
-        postcrop.sellerName = name;
-        postcrop.state = temp.state;
+        postcrop.sellerName = req.user.name;
+        postcrop.state = req.user.state;
         postcrop
             .save()
             .then(async (result) => {
-                allcrops = await crop.find({ sellerName: name }).sort({ name: -1 });
-                await farmerUser.findOneAndUpdate({ name: name }, { $push: { crops: postcrop._id } });
-                res.render("sell", { title: name, crops: allcrops, alrt: "Crop Posted Successfully" });
+                allcrops = await crop.find({ sellerName: req.user.name }).sort({ name: -1 });
+                await farmerUser.findOneAndUpdate({ name: req.user.name }, { $push: { crops: postcrop._id } });
+                res.render("sell", { title: req.user.name, crops: allcrops, alrt: "Crop Posted Successfully" });
             }
             )
-            .catch((err) => {
+            .catch(() => {
                 res.render("404", { title: "404 Error" });
             }
             );
         fs.unlink(path.join('./public/uploads', req.file.filename), (err) => {
-            if (err) throw err;
+            if (err) throw new Error(err);
         }
         );
+
     },
     buyCrop: async (req, res) => {
-        const id = req.params.id;
-        const name = req.params.name;
-        const bid = req.body.bid;
-        if (name === "Bids") {
-            res.redirect("/bids/" + id);
-        }
-        else {
-            var obj = await crop.findOne({ _id: id });
-            var temp;
-            if (obj.bids.length > 0) {
-                temp = obj.bids.sort(function (a, b) { return a.amount - b.amount });
-                temp = temp.reverse();
+        try {
+
+            const id = req.params.id;
+            const name = req.user.name;
+            const bid = req.body.bid;
+            if (name === "Bids") {
+                res.redirect("/bids/" + id);
             }
-            if (obj.bids.length === 0 || parseInt(temp[0].amount) < bid) {
-                var result = await buyerUser.findOne({ name: name });
-                if (result != null) {
-                    var x = {
-                        buyer: result.name,
-                        buyerid: result._id,
-                        amount: bid
-                    };
-                    var result2 = await crop.findByIdAndUpdate(id, { $push: { bids: x } });
-                    var x = {
-                        crop: result2._id,
-                        amount: bid
-                    };
-                    var result = await buyerUser.findOneAndUpdate({ name: name }, {
-                        $push: {
-                            bids: x
+            else {
+                var obj = await crop.findOne({ _id: id });
+                var temp;
+                if (obj.bids.length > 0) {
+                    temp = obj.bids.sort(function (a, b) { return a.amount - b.amount });
+                    temp = temp.reverse();
+                }
+                if (obj.bids.length === 0 || parseInt(temp[0].amount) < bid) {
+                    var result = await buyerUser.findOne({ name: name });
+                    if (result != null) {
+                        var x = {
+                            buyer: result.name,
+                            buyerid: result._id,
+                            amount: bid
+                        };
+                        var result2 = await crop.findByIdAndUpdate(id, { $push: { bids: x } });
+                        var x = {
+                            crop: result2._id,
+                            amount: bid
+                        };
+                        var result = await buyerUser.findOneAndUpdate({ name: name }, {
+                            $push: {
+                                bids: x
+                            }
+                        });
+                        if (result2 != null) {
+                            allcrops = await crop.find({}).sort({ name: -1 });
+                            res.render("buy", { crops: allcrops, title: name, alrt: "Bid Placed Successfully" });
                         }
-                    });
-                    if (result2 != null) {
-                        allcrops = await crop.find({}).sort({ name: -1 });
-                        res.render("buy", { crops: allcrops, title: name, alrt: "Bid Placed Successfully" });
+                        else {
+                            allcrops = await crop.find({}).sort({ name: -1 });
+                            res.render("buy", { crops: allcrops, title: name, alrt: "Bid Unsuccessful" });
+                        }
                     }
                     else {
                         allcrops = await crop.find({}).sort({ name: -1 });
-                        res.render("buy", { crops: allcrops, title: name, alrt: "Bid Unsuccessful" });
+                        res.render("buy", { crops: allcrops, title: name, alrt: "Bid Failed" });
                     }
                 }
                 else {
                     allcrops = await crop.find({}).sort({ name: -1 });
-                    res.render("buy", { crops: allcrops, title: name, alrt: "Bid Failed" });
+                    res.render("buy", { crops: allcrops, title: name, alrt: "Place a higher Bid" });
                 }
             }
-            else {
-                allcrops = await crop.find({}).sort({ name: -1 });
-                res.render("buy", { crops: allcrops, title: name, alrt: "Place a higher Bid" });
-            }
+        }
+        catch (err) {
+            res.render("404", { title: "404 Error" });
         }
     },
     buySearch: async (req, res) => {
-        const { search } = req.query;
-        const name = req.params.name;
-        allcrops = await crop.find({ $or: [{ name: search }, { state: search }, { sellerName: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }).sort({ createdAt: -1 });
-        if (allcrops != null) {
-            res.render("buy", { crops: allcrops, title: name, alrt: "" });
+        try {
+            const { search } = req.query;
+            const name = req.user.name;
+            allcrops = await crop.find({ $or: [{ name: search }, { state: search }, { sellerName: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }).sort({ createdAt: -1 });
+            if (allcrops != null) {
+                res.render("buy", { crops: allcrops, title: name, alrt: "" });
+            }
+            else {
+                res.render("buy", { crops: allcrops, title: name, alrt: "No results" });
+            }
         }
-        else {
-            res.render("buy", { crops: allcrops, title: name, alrt: "No results" });
+        catch (err) {
+            res.render("404", { title: "404 Error" });
         }
     },
     sellSearch: async (req, res) => {
-        const { search } = req.query;
-        const sellername = req.params.name;
-        allcrops = await crop.find({ $and: [{ $or: [{ name: search }, { state: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }, { sellerName: sellername }] }).sort({ createdAt: -1 });
-        if (allcrops != null) {
-            res.render("sell", { crops: allcrops, title: sellername, alrt: "" });
+        try {
+            const { search } = req.query;
+            const sellername = req.user.name;
+            allcrops = await crop.find({ $and: [{ $or: [{ name: search }, { state: search }, { basePrice: search }, { quantity: search }, { category: search }, { startDate: search }] }, { sellerName: sellername }] }).sort({ createdAt: -1 });
+            if (allcrops != null) {
+                res.render("sell", { crops: allcrops, title: sellername, alrt: "" });
+            }
+            else {
+                res.render("sell", { crops: allcrops, title: sellername, alrt: "No results" });
+            }
         }
-        else {
-            res.render("sell", { crops: allcrops, title: sellername, alrt: "No results" });
+        catch (err) {
+            res.render("404", { title: "404 Error" });
         }
     },
     bids: async (req, res) => {
-        const id = req.params.id;
-        const result = await crop.findById(id);
-        if (result != null && result.bids.length > 0) {
-            var obj = result.bids.sort(function (a, b) { return a.amount - b.amount });
-            obj = obj.reverse();
-            if (obj != [] && obj != null) {
-                res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "" });
+        try {
+            const id = req.params.id;
+            const result = await crop.findById(id);
+            if (result != null && result.bids.length > 0) {
+                var obj = result.bids.sort(function (a, b) { return a.amount - b.amount });
+                obj = obj.reverse();
+                if (obj != [] && obj != null) {
+                    res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "" });
+                }
+            }
+            else {
+                obj = [{ length: 0 }];
+                res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "No Bids" });
             }
         }
-        else {
-            obj = [{ length: 0 }];
-            res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "No Bids" });
+        catch (err) {
+            res.render("404", { title: "404 Error" });
         }
     },
     bidsForBuyer: async (req, res) => {
-        const id = req.params.id;
-        const name = req.params.name;
-        const result = await crop.findById(id);
-        if (result != null && result.bids.length > 0) {
-            var obj = result.bids.sort(function (a, b) { return a.amount - b.amount });
-            obj = obj.reverse();
-            if (obj != [] && obj != null) {
-                res.render("bids", { bids: obj, crop: result, title: name, alrt: "" });
+        try {
+            const id = req.params.id;
+            const name = req.user.name;
+            const result = await crop.findById(id);
+            if (result != null && result.bids.length > 0) {
+                var obj = result.bids.sort(function (a, b) { return a.amount - b.amount });
+                obj = obj.reverse();
+                if (obj != [] && obj != null) {
+                    res.render("bids", { bids: obj, crop: result, title: name, alrt: "" });
+                }
+            }
+            else {
+                obj = [{ length: 0 }];
+                res.render("bids", { bids: obj, crop: result, title: name, alrt: "No Bids" });
             }
         }
-        else {
-            obj = [{ length: 0 }];
-            res.render("bids", { bids: obj, crop: result, title: name, alrt: "No Bids" });
+        catch (err) {
+            res.render("404", { title: "404 Error" });
+        }
+    },
+    bidsForSeller: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const name = req.user.name;
+            const result = await crop.findById(id);
+            if (result != null && result.bids.length > 0) {
+                var obj = result.bids.sort(function (a, b) { return a.amount - b.amount });
+                obj = obj.reverse();
+                if (obj != [] && obj != null) {
+                    res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "" });
+                }
+            }
+            else {
+                obj = [{ length: 0 }];
+                res.render("bids", { bids: obj, crop: result, title: "Bids", alrt: "No Bids" });
+            }
+        }
+        catch (err) {
+            res.render("404", { title: "404 Error" });
         }
     }
 }

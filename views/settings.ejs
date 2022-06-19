@@ -2,7 +2,7 @@
 <html lang="en">
   <%-include('./partials/bootstrap.ejs')%> <%-include('./partials/header.ejs')%>
   <body>
-    <%-include('./partials/nav2.ejs')%>
+    <form%-include('./partials/nav2.ejs')%>
     <div class="settings-container">
       <div class="card" id="settings-card">
         <div class="col">
@@ -10,7 +10,8 @@
           <a href="/reset-data/<%=user.name%>" style="color:rgb(168, 168, 168);"><div class="row">Change account Details</div></a>
           <a href="/reset" style="color:rgb(168, 168, 168);"><div class="row">Reset Password</div></a>
           <a href="/delete/<%=user.name%>" style="color:rgb(168, 168, 168);"><div class="row">Delete Account</div></a>
-          <a href="/" style="color:rgb(168, 168, 168);"><div class="row">Logout</div></a>
+
+          <form action="/logout?_method=DELETE" method="POST" ><div class="row"><button type="submit">Logout</button></div></form>
         </div>
       </div>
       <div class="col">

@@ -6,7 +6,7 @@
     <div class="sell">
       <h2 class="Alert"><%=alrt%></h2>
       <form
-        action="/post-crop/<%=title%>"
+        action="/post-crop"
         method="POST"
         enctype="multipart/form-data"
       >
@@ -110,7 +110,7 @@
         </table>
       </form>
     </div>
-    <form action="/sell-search/<%=title%>" method="get">
+    <form action="/sell-search" method="get">
       <input
         id="search"
         name="search"
@@ -145,19 +145,19 @@
         <tr>
           <div class="rows">
             <th>
-              <a href="/bids/<%=crop._id%>"><img
+              <a href="/sellerbids/<%=crop._id%>"><img
                 id="crop-image"
                 src="data:image/<%=crop.crop_image.contentType%>;base64,
               <%=crop.crop_image.data.toString('base64')%>"
               /><a href="">
             </th>
-            <th><a href="/bids/<%=crop._id%>"><%=crop.sellerName%></th><a href="">
-            <th><a href="/bids/<%=crop._id%>"><%=crop.name%></th><a href="">
-            <th><a href="/bids/<%=crop._id%>"><%=crop.state%></th><a href="">
-            <th><a href="/bids/<%=crop._id%>"><%=crop.description%></th><a href="">
-            <th><a href="/bids/<%=crop._id%>"><%=crop.basePrice%></th><a href="">
-            <th><a href="/bids/<%=crop._id%>"><%=crop.quantity%></th><a href="">
-            <th><a href="/bids/<%=crop._id%>"><%=crop.category%></th><a href="">
+            <th><a href="/sellerbids/<%=crop._id%>"><%=crop.sellerName%></th><a href="">
+            <th><a href="/sellerbids/<%=crop._id%>"><%=crop.name%></th><a href="">
+            <th><a href="/sellerbids/<%=crop._id%>"><%=crop.state%></th><a href="">
+            <th><a href="/sellerbids/<%=crop._id%>"><%=crop.description%></th><a href="">
+            <th><a href="/sellerbids/<%=crop._id%>"><%=crop.basePrice%></th><a href="">
+            <th><a href="/sellerbids/<%=crop._id%>"><%=crop.quantity%></th><a href="">
+            <th><a href="/sellerbids/<%=crop._id%>"><%=crop.category%></th><a href="">
 
             <th><%=crop.startDate%></th>
             <th><%=crop.endDate%></th>

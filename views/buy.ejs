@@ -5,7 +5,7 @@
     <%-include('./partials/nav2.ejs')%>
     <div class="container">
       <h2 class="Alert"><%=alrt%></h2>
-      <form action="/buy-search/<%=title%>" method="get">
+      <form action="/buy-search" method="get">
         <input
           id="search"
           name="search"
@@ -37,26 +37,26 @@
           </tr>
         </head>
         <%if(crops.length>=1){%> <%crops.forEach(crop=>{ %>
-        <form action="/buy-crop/<%=crop._id%>/<%=title%>" method="post">
+        <form action="/buy-crop/<%=crop._id%>" method="post">
           <tr>
             <div class="rows">
               <th>
-                <a href="/bids/<%=crop._id%>/<%=title%>">
+                <a href="/buyerbids/<%=crop._id%>">
                 <img
                   id="crop-image"
                   src="data:image/<%=crop.crop_image.contentType%>;base64,
                 <%=crop.crop_image.data.toString('base64')%>"
                 /></a>
               </th>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.sellerName%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.name%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.state%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.description%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.basePrice%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.quantity%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.category%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.startDate%></th></a>
-              <th><a href="/bids/<%=crop._id%>/<%=title%>"><%=crop.endDate%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.sellerName%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.name%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.state%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.description%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.basePrice%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.quantity%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.category%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.startDate%></th></a>
+              <th><a href="/buyerbids/<%=crop._id%>"><%=crop.endDate%></th></a>
               <th><input type="text" name="bid" id="bid" /></th></a>
               <th>
                 <button>Buy</button>

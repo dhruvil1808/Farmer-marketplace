@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <%-include('./partials/bootstrap')%> <%-include('./partials/header.ejs')%>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      var val = $(".username").text();
+      if (val == "Bids") {
+        $(".hide").hide();
+      }
+    });
+  </script>
   <body>
-    <%-include('./partials/nav.ejs')%>
+    <%-include('./partials/nav2.ejs')%>
     <div class="container">
       <div class="row">
         <div class="col-md-12">
@@ -26,10 +35,10 @@
                 <th><label for="crop-category">Crop Category</label></th>
                 <th><label for="start-date">Start Date</label></th>
                 <th><label for="end-date">End Date</label></th>
-                <th><label for="bid">Your Bid</label></th>
+                <th class="hide"><label for="bid">Your Bid</label></th>
               </tr>
             </head>
-            <form action="/buy-crop/<%=crop._id%>/<%=title%>" method="post">
+            <form action="/buy-crop/<%=crop._id%>" method="post">
               <tr>
                 <div class="rows">
                   <th>
@@ -48,8 +57,10 @@
                   <th><%=crop.category%></th>
                   <th><%=crop.startDate%></th>
                   <th><%=crop.endDate%></th>
-                  <th><input type="text" name="bid" id="bid" /></th>
-                  <th>
+                  <th class="hide">
+                    <input type="text" name="bid" id="bid" />
+                  </th>
+                  <th class="hide">
                     <button>Buy</button>
                   </th>
                 </div>
