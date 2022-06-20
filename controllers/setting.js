@@ -153,9 +153,7 @@ module.exports = {
                         var temp = await crop.findOne({ _id: x.crop });
                         var res = [];
                         temp.bids.forEach((y) => {
-                            if (y.buyer == username) {
-                            }
-                            else {
+                            if (y.buyer != username) {
                                 res.push(y);
                             }
                         }

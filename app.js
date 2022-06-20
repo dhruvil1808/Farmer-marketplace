@@ -7,12 +7,13 @@ const bodyParser = require('body-parser');
 const flash = require("express-flash");
 const session = require("express-session");
 const passport = require("passport");
-const methodOverride = require('method-override')
+const methodOverride = require('method-override');
 const appRoutes = require("./routes/appRoutes");
+const cron = require('node-cron');
 const settingRoutes = require("./routes/settingRoutes");
 const DBURI = process.env.DBURI;
 const port = process.env.PORT || 3000;
-
+const { sendMail } = require("./middleware/mailer");
 mongoose
     .connect(DBURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(app.listen(port))
@@ -30,6 +31,11 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(methodOverride('_method'))
+
+cron.schedule('0 0 0 * * *', () => {
+    console.log('running a task every day at 12:00');
+    sendMail();
+});
 
 app.use(appRoutes);
 app.use(settingRoutes);

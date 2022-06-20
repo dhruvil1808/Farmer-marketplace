@@ -44,7 +44,7 @@ module.exports = {
                     temp = obj.bids.sort(function (a, b) { return a.amount - b.amount });
                     temp = temp.reverse();
                 }
-                if (obj.bids.length === 0 || parseInt(temp[0].amount) < bid) {
+                if ((obj.bids.length === 0 || parseInt(temp[0].amount) < bid) && bid > (parseInt(obj.basePrice) * parseInt(obj.quantity))) {
                     var result = await buyerUser.findOne({ name: name });
                     if (result != null) {
                         var x = {
@@ -179,5 +179,5 @@ module.exports = {
         catch (err) {
             res.render("404", { title: "404 Error" });
         }
-    }
+    },
 }
