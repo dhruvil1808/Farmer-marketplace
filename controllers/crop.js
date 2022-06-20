@@ -1,8 +1,10 @@
+//controller for crop management
 const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
 const fs = require('fs');
 const path = require('path');
 module.exports = {
+    //upload new crop
     postCrop: (req, res) => {
 
         const postcrop = new crop(req.body);
@@ -28,6 +30,7 @@ module.exports = {
         );
 
     },
+    //buy crop
     buyCrop: async (req, res) => {
         try {
 
@@ -86,6 +89,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //view crops available with filters for buyer
     buySearch: async (req, res) => {
         try {
             const { search } = req.query;
@@ -102,6 +106,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //view crops available with filters for seller
     sellSearch: async (req, res) => {
         try {
             const { search } = req.query;
@@ -118,6 +123,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //view all crops available for all users 
     bids: async (req, res) => {
         try {
             const id = req.params.id;
@@ -138,6 +144,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //view all crops available for the buyer
     bidsForBuyer: async (req, res) => {
         try {
             const id = req.params.id;
@@ -159,6 +166,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //view all crops available for the seller
     bidsForSeller: async (req, res) => {
         try {
             const id = req.params.id;

@@ -1,6 +1,8 @@
+//controller for user settings
 const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
 module.exports = {
+    //render user settings page
     setting: async (req, res) => {
         try {
             const username = req.params.username;
@@ -14,9 +16,11 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //render reset password page
     reset: (req, res) => {
         res.render('reset.ejs', { title: 'Reset Password', alrt: '' });
     },
+    //reset password
     resetPassword: async (req, res) => {
         try {
             const name = req.body.email;
@@ -53,6 +57,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //render update user details page
     resetDetails: async (req, res) => {
         try {
             const username = req.params.username;
@@ -68,6 +73,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //update user details
     resetData: async (req, res) => {
         try {
             var allcrops = await crop.find({}).sort({ createdAt: -1 });
@@ -126,6 +132,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //render delete user page
     delete: async (req, res) => {
         try {
             const username = req.params.username;
@@ -135,10 +142,12 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //delete user
     deleteUser: async (req, res) => {
         try {
             const username = req.body.username;
             const pass = req.body.password;
+            //finding the type of user
             var result = await farmerUser.findOneAndDelete({
                 name: username,
                 password: pass,
@@ -148,7 +157,9 @@ module.exports = {
                     name: username,
                     password: pass,
                 });
+                //if it is buyer user
                 if (result != null) {
+                    //delete all the bids of the user from crop data
                     result.bids.forEach(async (x) => {
                         var temp = await crop.findOne({ _id: x.crop });
                         var res = [];
@@ -158,7 +169,7 @@ module.exports = {
                             }
                         }
                         );
-                        var xyz = await crop.findByIdAndUpdate(x.crop, { bids: res });
+                        await crop.findByIdAndUpdate(x.crop, { bids: res });
                     });
                     var allcrops = await crop.find({}).sort({ createdAt: -1 });
                     res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: 'User Deleted' });
@@ -168,7 +179,9 @@ module.exports = {
                     res.render('home.ejs', { crops: allcrops, title: 'Horizon', alrt: 'User not Deleted' });
                 }
             }
+            //if it is farmer user
             else {
+                //delete all crops of the farmer
                 result.crops.forEach(async (x) => {
                     await crop.findByIdAndDelete(x._id);
                 });
@@ -185,6 +198,7 @@ module.exports = {
             res.render("404", { title: "404 Error" });
         }
     },
+    //user logout
     logout: (req, res) => {
         req.logout(function (err) {
             if (err) { return next(err); }

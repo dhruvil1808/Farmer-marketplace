@@ -6,6 +6,5 @@ function validate() {
     v1.value = "";
     v2.value = "";
   } else {
-    alert("User Created");
   }
 }

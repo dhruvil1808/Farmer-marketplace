@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const schema = mongoose.Schema; //create a schema
+const schema = mongoose.Schema;
 
-const cropSchema = new schema( //creating a schema
+//creating a schema for saving data for each crop posted by farmer
+const cropSchema = new schema(
     {
         sellerName: { type: String, required: true },
         name: { type: String, required: true },

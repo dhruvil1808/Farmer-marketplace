@@ -1,3 +1,4 @@
+//checking if the user is authenticated after the last request or not
 function checkAuth(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

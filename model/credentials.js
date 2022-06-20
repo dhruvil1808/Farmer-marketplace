@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema; //create a schema
 
-const userSchema = new schema( //creating a schema
+//creating a schema for saving the data of different buyers.
+const userSchema = new schema(
     {
         name: { type: String, required: true },
         aadhar: { type: String, required: true },
@@ -17,6 +18,7 @@ const userSchema = new schema( //creating a schema
     },
     { timestamps: true }
 );
+//creating a schema for saving the data of different farmers.
 const userSchema2 = new schema( //creating a schema
     {
         name: { type: String, required: true },
