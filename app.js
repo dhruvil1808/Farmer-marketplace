@@ -53,5 +53,8 @@ app.use(settingRoutes);
 //404
 router.use((req, res) => {
     res.render('404.ejs', { title: '404 Error hai', alrt: '' });
-}
-);
+});
+
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+});

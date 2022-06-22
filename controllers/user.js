@@ -70,7 +70,7 @@ module.exports = {
         }
     },
     //login user
-    login: async (req, res, next) => {
+    login: async (req, res) => {
         if (req.user.kisaan_id == undefined) {
             res.render('buy', { user: req.user, title: req.user.name, crops: await crop.find({}), alrt: "" });
         }

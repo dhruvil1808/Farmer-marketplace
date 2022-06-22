@@ -6,7 +6,6 @@ const path = require('path');
 module.exports = {
     //upload new crop
     postCrop: (req, res) => {
-
         const postcrop = new crop(req.body);
         postcrop.crop_image.data = fs.readFileSync(path.join('./public/uploads', req.file.filename));
         postcrop.crop_image.contentType = 'image/png/jpg/jpeg';
@@ -28,7 +27,6 @@ module.exports = {
             if (err) throw new Error(err);
         }
         );
-
     },
     //buy crop
     buyCrop: async (req, res) => {
