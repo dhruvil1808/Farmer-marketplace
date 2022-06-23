@@ -5,7 +5,7 @@ module.exports = {
     //render user settings page
     setting: async (req, res) => {
         try {
-            const username = req.params.username;
+            const username = req.user.name;
             var result = await buyerUser.findOne({ name: username });
             if (result == null) {
                 result = await farmerUser.findOne({ name: username });
@@ -60,7 +60,7 @@ module.exports = {
     //render update user details page
     resetDetails: async (req, res) => {
         try {
-            const username = req.params.username;
+            const username = req.user.name;
             var result = await buyerUser.findOne({ name: username });
             if (result == null) {
                 result = await farmerUser.findOne({ name: username });
@@ -135,7 +135,7 @@ module.exports = {
     //render delete user page
     delete: async (req, res) => {
         try {
-            const username = req.params.username;
+            const username = req.user.name;
             res.render("delete", { title: "Delete Account", username: username });
         }
         catch (err) {
@@ -144,6 +144,7 @@ module.exports = {
     },
     //delete user
     deleteUser: async (req, res) => {
+        console.log("Hello");
         try {
             const username = req.body.username;
             const pass = req.body.password;
