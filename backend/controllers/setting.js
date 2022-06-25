@@ -1,6 +1,7 @@
 //controller for user settings
 const { buyerUser, farmerUser } = require('../model/credentials');
 const { crop } = require('../model/crops');
+const bcrypt = require('bcrypt');
 module.exports = {
     //render user settings page
     setting: async (req, res) => {
@@ -25,15 +26,16 @@ module.exports = {
         try {
             const name = req.body.email;
             const birth = req.body.dob;
+            const HashedPassword = await bcrypt.hash(req.body.password, 10);
             var result2;
             const result = await buyerUser.findOneAndUpdate(
                 { email: name, dob: birth },
-                { password: req.body.password }
+                { password: HashedPassword }
             );
             if (result == null) {
                 result2 = await farmerUser.findOneAndUpdate(
                     { aadhar: name, dob: birth },
-                    { password: req.body.password }
+                    { password: HashedPassword }
                 );
             }
             if (result != null) {
@@ -144,19 +146,19 @@ module.exports = {
     },
     //delete user
     deleteUser: async (req, res) => {
-        console.log("Hello");
         try {
             const username = req.body.username;
             const pass = req.body.password;
+            const HashedPassword = await bcrypt.hash(pass, 10);
             //finding the type of user
             var result = await farmerUser.findOneAndDelete({
                 name: username,
-                password: pass,
+                password: HashedPassword,
             });
             if (result == null) {
                 result = await buyerUser.findOneAndDelete({
                     name: username,
-                    password: pass,
+                    password: HashedPassword,
                 });
                 //if it is buyer user
                 if (result != null) {

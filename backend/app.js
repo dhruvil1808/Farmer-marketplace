@@ -15,9 +15,9 @@ const appRoutes = require("./routes/appRoutes");
 const cron = require('node-cron');
 const settingRoutes = require("./routes/settingRoutes");
 const DBURI = process.env.DBURI;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const { sendMail } = require("./middleware/mailer");
-
+const cors = require('cors');
 //connecting to the database and listening to the port
 mongoose
     .connect(DBURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -30,6 +30,8 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
+app.use(express.json());
+app.use(cors());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -53,8 +55,4 @@ app.use(settingRoutes);
 //404
 router.use((req, res) => {
     res.render('404.ejs', { title: '404 Error hai', alrt: '' });
-});
-
-app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
