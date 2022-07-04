@@ -26,6 +26,7 @@ mongoose
 
 //setting the express app
 app.set('view engine', 'ejs');
+app.set('views', '../frontend/views');
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
