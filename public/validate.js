@@ -33,3 +33,19 @@ function validate() {
     state.value = "";
   }
 }
+function date_validation() {
+  const startDate = document.getElementById("startDate");
+  const endDate = document.getElementById("endDate");
+  const today = new Date();
+
+  if (startDate.value < today) {
+    alert("Start date must be greater than today");
+    startDate.value = "";
+    endDate.value = "";
+  }
+  if (startDate.value > endDate.value) {
+    alert("End date must be greater than start date");
+    startDate.value = "";
+    endDate.value = "";
+  }
+}

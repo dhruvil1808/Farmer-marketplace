@@ -13,7 +13,7 @@ async function sendMail() {
 
     try {
         //getting the crops that have end date equal to todays date
-        var res = await crop.find({ endDate: fullDate });
+        var res = await crop.find({ endDate: { $lte: fullDate } });
     }
     catch (err) {
         console.log(err);
