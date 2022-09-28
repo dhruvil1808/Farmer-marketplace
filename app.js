@@ -15,7 +15,7 @@ const appRoutes = require("./routes/appRoutes");
 const cron = require('node-cron');
 const settingRoutes = require("./routes/settingRoutes");
 const DBURI = process.env.DBURI;
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 const { sendMail } = require("./middleware/mailer");
 const cors = require('cors');
 //connecting to the database and listening to the port
