@@ -35,7 +35,7 @@ async function sendMail() {
             }
         });
         var info = {
-            from: process.env.EMAIL,
+            from: "dhruvil317@gmail.com",
             to: result2.email,
             subject: 'You are the highest bidder for ' + res[i].name,
             text: 'You are the highest bidder for ' + res[i].name + '\n\n' +
