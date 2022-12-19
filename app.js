@@ -14,7 +14,7 @@ const methodOverride = require('method-override');
 const appRoutes = require("./routes/appRoutes");
 const cron = require('node-cron');
 const settingRoutes = require("./routes/settingRoutes");
-const DBURI = "mongodb+srv://dhruvil1808:Dhruvil1234@cluster0.6wkxh.mongodb.net/test?retryWrites=true&w=majority";
+const DBURI = "mongodb+srv://<username>:<password>@cluster0.6wkxh.mongodb.net/test?retryWrites=true&w=majority";
 const port = process.env.PORT || 3000;
 const { sendMail } = require("./middleware/mailer");
 const cors = require('cors');
